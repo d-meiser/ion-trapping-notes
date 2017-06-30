@@ -40,7 +40,7 @@ class ModeAnalysis:
     q = 1.602176565E-19
     amu = 1.66057e-27
     m_Be = 9.012182 * amu
-    k_e = 8.9875517873681764E9
+    k_e = 8.9875517873681764E9 # electrostatic constant k_e = 1 / (4.0 pi epsilon_0)
 
     def __init__(self, N=19, Vtrap=(0.0, -1750.0, -2000.0), Ctrap=1.0,
                  ionmass=None, B=4.4588, frot=180., Vwall=5., wall_order=2,
