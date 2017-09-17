@@ -1,3 +1,4 @@
 from .ion_trapping import (
-    foo
+    foo,
+    angular_damping
 )
