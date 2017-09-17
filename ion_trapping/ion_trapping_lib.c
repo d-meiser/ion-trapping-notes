@@ -65,3 +65,18 @@ void angular_damping(
 		speed[i].y = v_updated[1];
 	}
 }
+
+void axial_damping(
+	int num_ptcls,
+	double kappa_dt,
+	double *v
+	)
+{
+	int i;
+	const double expMinusKappaDt = exp(-kappa_dt);
+	struct Vec3 *speed = (struct Vec3 *)v;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		speed[i].z = expMinusKappaDt * speed[i].z;
+	}
+}

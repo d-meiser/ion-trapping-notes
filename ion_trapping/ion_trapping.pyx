@@ -27,3 +27,19 @@ def angular_damping(omega, kappa_theta,
         &x[0, 0],
         &v[0, 0]
     )
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def axial_damping(kappa_theta,
+                  np.ndarray[double, ndim=2, mode="c"] v not None):
+    assert(v.shape[1] == 3)
+
+    cdef num_ptcls
+    num_ptcls = v.shape[0]
+
+    ion_trapping_lib.axial_damping(
+        num_ptcls,
+        kappa_theta,
+        &v[0, 0]
+    )

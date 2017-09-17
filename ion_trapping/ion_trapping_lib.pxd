@@ -7,3 +7,8 @@ cdef extern from "ion_trapping_lib.h":
 	    const double *x,
 	    double *v
 	);
+    void axial_damping(
+	    int num_ptcls,
+	    double kappa_dt,
+	    double *v
+	);

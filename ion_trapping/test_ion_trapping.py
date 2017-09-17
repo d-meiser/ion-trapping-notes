@@ -36,7 +36,7 @@ def test_angular_damping():
     x = np.random.random([num_ptcls, 3])
     v = np.random.random([num_ptcls, 3])
     omega = 1.0e5
-    kappa_dt = 1.0e-2
+    kappa_dt = 1.0e-1
     v_ref = np.copy(v)
     angular_damping_reference(omega, kappa_dt, x, v_ref)
     ion_trapping.angular_damping(omega, kappa_dt, x, v)
@@ -45,3 +45,22 @@ def test_angular_damping():
     normalization = np.linalg.norm(v) + np.linalg.norm(v_ref)
     assert(np.linalg.norm(v - v_ref) / normalization < epsilon)
 
+
+def axial_damping_reference(kappa_dt, v):
+    assert(v.shape[1] == 3)
+    vz = v[:, 2]
+    damping_factor = np.exp(-kappa_dt)
+    v[:, 2] = damping_factor * vz
+
+
+def test_axial_damping():
+    num_ptcls = 20
+    v = np.random.random([num_ptcls, 3])
+    kappa_dt = 1.0e-1
+    v_ref = np.copy(v)
+    axial_damping_reference(kappa_dt, v_ref)
+    ion_trapping.axial_damping(kappa_dt, v)
+
+    epsilon = 1.0e-9
+    normalization = np.linalg.norm(v) + np.linalg.norm(v_ref)
+    assert(np.linalg.norm(v - v_ref) / normalization < epsilon)
