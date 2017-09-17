@@ -8,12 +8,6 @@ static double sqr(double x) {
 }
 
 
-int foo()
-{
-	return 42;
-}
-
-
 struct Vec3 {
 	double x;
 	double y;

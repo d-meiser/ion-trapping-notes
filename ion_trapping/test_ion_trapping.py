@@ -2,10 +2,6 @@ import ion_trapping
 import numpy as np
 
 
-def test_can_call_foo():
-    assert(ion_trapping.foo() == 42)
-
-
 def angular_damping_reference(omega, kappa_dt, x, v):
     xx = x[:, 0]
     xy = x[:, 1]

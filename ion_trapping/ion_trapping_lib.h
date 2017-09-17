@@ -2,8 +2,6 @@
 #define ION_TRAPPING_LIB_H
 
 
-int foo();
-
 void angular_damping(
 	int num_ptcls,
 	double omega,

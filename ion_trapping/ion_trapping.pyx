@@ -4,10 +4,6 @@ cimport numpy as np
 cimport ion_trapping_lib
 
 
-def foo():
-    return ion_trapping_lib.foo()
-
-
 @cython.boundscheck(False)
 @cython.wraparound(False)
 def angular_damping(omega, kappa_theta,
