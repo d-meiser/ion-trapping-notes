@@ -1,0 +1,139 @@
+% -*- mode: latex; fill-column: 65; -*-
+\documentclass[aps, pra, preprint]{revtex4-1}
+\usepackage{todonotes}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\bibliographystyle{apsrev4-1}
+
+
+\begin{document}
+
+\title{Computational analysis of laser cooling of ultra-cold ions
+  in Penning traps
+  \todo{More imaginative title}
+}
+
+\author{Dominic Meiser\\
+\todo{Fix author affiliations}
+}
+\affiliation{Timble Inc, ...}
+\author{John J Bollinger}
+\affiliation{NIST}
+
+\begin{abstract}
+  Here goes the abstract.
+  \todo{Write abstract}
+\end{abstract}
+
+\maketitle
+
+
+Ultra-cold ions in Penning traps are an experimental system that
+enable many studies at the forefront of quantum science and
+condensed matter physics. For many of these studies it is
+beneficial to prepare the ultra-cold ion ensemble in the coldest
+state possible. For example, for quantum
+metrology\todo{references} and quantum simulation
+experiments\todo{references}, cold temperatures enable single
+site optical access to individual ions for precise state
+preparation and high fidelity state readout. In squeezing
+experiments colder temperatures can reduce dephasing rates.
+
+{\bf For what types of experiments for are colder temperatures
+beneficial?}
+\begin{itemize}
+\item Metrology and squeezing experiments
+\item Quantum simulation experiments, Ising model, quantum
+  magnetism, condensed matter, etc.
+\item Quantum information and quantum computing? Is that within
+  reach for Penning trap experiments?
+\end{itemize}k
+
+{\bf How do these experiments benefit from cold temperatures?}
+\begin{itemize}
+\item Improved crystal stability
+\item Longer interrogation times
+\item Higher fidelity state preparation
+\item Smaller dephasing rates
+\item Higher precision/fidelity state readout
+\item single site access
+\end{itemize}
+
+{\bf How are cold temperatures achieved?} The primary means of
+cooling ions in Penning traps are various forms of laser cooling
+including Doppler cooling and side band cooling. While the basic
+principles of laser cooling for ultra-cold ions is the same as
+for neutral atoms in magneto-optical traps there are also
+significant differences that can make it challenging to
+understand the experimentally achieved ion temperature, cooling
+limits, cooling and heating mechanisms, and that can make it more
+challenging to optimize the cooling laser parameters such as
+intensity and detuning as well as the cooling laser geometry.
+
+{\bf What is different and more challenging for ions compared to
+neutral atoms?} A major difference compared to neutral atom
+experiments is that ions in Penning traps move in a magnetic
+field several Tesla strong. The Lorentz force in the magnetic
+field forces the ions into circular orbits with a cyclotron
+frequency on the order of a few hundred kilo Hertz. The rotation
+of the ions in the magnetic field means that the ions velocity
+periodically changes direction relative to any cooling laser
+beams that are stationary in the laboratory frame of reference. A
+second major difference is the strong interaction between the
+ions due to the Coulomb force. The Coulomb force couples the ions
+into collective modes of motion. In contrast to the cooling
+dynamics of neutral atoms---which is largely a single particle
+phenomenon---it is necessary to take the collective nature of the
+ion motion into account to fully understand the cooling dynamics
+of ultra-cold ions in Penning traps.
+
+{\bf What do we contribute in this paper?} To help us better
+understand the dynamics of ultra-cold ions in Penning traps we
+have developed computer simulations that allow us to
+quantitatively track the dynamics of the ions over time scales
+from fractions of a nano-second all the way to milli seconds and
+seconds. In this paper we demonstrate the validity of these
+simulations by comparison with other simulations as well as by
+comparison with experimental data. We then use these simulations
+to study the spectra of the out-of-plane and in-plane modes of
+motion of ultra-cold ions. We compute the temperatures of these
+modes and determine optimal laser cooling parameters.
+
+{\bf Who has studied cooling dynamics before? How did they do
+it?} Need a significant review of the existing literature here.
+Some key workds: Dan Dubin, Dave Wineland and JJ Bollinger,
+Molecular Dynamics simulations, analytical studies, fluid models,
+tracking codes, particle methods, PIC, Direct Simulation Mode
+Carlo (DSMC).
+
+{\bf What will we discuss in the rest of this paper}
+
+
+\section{Model and computational algorithm}
+
+
+\subsection{Mathematical model}
+
+\subsection{Numerical algorithm}
+
+
+\subsection{Convergence}
+
+\subsection{Single-plane to multi-plane instability}
+
+
+\section{Finite temperature mode analysis}
+
+\subsection{Out-of-plane modes}
+
+\subsection{In-plane modes}
+
+
+
+\section{Conclusion}
+
+\bibliography
+
+\end{document}
