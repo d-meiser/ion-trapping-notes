@@ -7,6 +7,10 @@
 
 \bibliographystyle{apsrev4-1}
 
+\newcommand{\hfree}{H_{\rm free}}
+\newcommand{\phicap}{\varphi_{\rm cap}}
+\newcommand{\phiwall}{\varphi_{\rm wall}}
+
 
 \begin{document}
 
@@ -45,8 +49,9 @@ experiments colder temperatures can reduce dephasing rates.
 beneficial?}
 \begin{itemize}
 \item Metrology and squeezing experiments
-\item Quantum simulation experiments, Ising model, quantum
-  magnetism, condensed matter, etc.
+\item Quantum simulation experiments, Ising
+  model\cite{Britton:EngineeredIsingModel}, quantum magnetism,
+  condensed matter, etc.
 \item Quantum information and quantum computing? Is that within
   reach for Penning trap experiments?
 \end{itemize}k
@@ -113,8 +118,49 @@ Carlo (DSMC).
 
 \section{Model and computational algorithm}
 
+In this section we describe our mathematical model as well as the
+computational techniques used in our simulations.
+
 
 \subsection{Mathematical model}
+
+We treat the ions as classical point like particles with 
+velocity $\mathbf{v}_i$ and position $\mathbf{x}_i$. The motion
+of the ions is governed by the Hamiltonian
+\begin{equation}
+  H = \hfree + \sum_{i=1}^N q_i\varphi(\mathbf{x}_i)\;,
+\end{equation}
+where the free Hamiltonian
+\begin{equation}
+  \hfree =
+  \sum_{i=1}^N \frac{1}{2m_i}\left(
+    \mathbf{p}_i +
+    \frac{q_i}{c}\mathbf{A}(\mathbf{x}_i) \right)^2 
+\end{equation}
+includes the vector potential $\mathbf{A}$ corresponding to the
+axial magnetic field in the Penning trap, $\mathbf{B} =
+\mathbf{\nabla}\times \mathbf{A}$. In these equations $N$ is the
+number of ions in the trap, $m_i$ is the mass of ion $i$, $q_i$
+its charge, and the electrostatic potential
+\begin{equation}
+  \varphi(\mathbf{x}_i) =
+  \phicap(\mathbf{x}_i) +
+  \phiwall(\mathbf{x}_i) +
+  \sum_{\substack{j=1\\j\neq i}}^N
+  \frac{1}{4\pi\varepsilon_0}\
+  \frac{q_j}{\left| \mathbf{x_i} - \mathbf{x_j} \right|}
+\end{equation}
+contains the potential $\phicap$ due to the end-cap electrodes in
+the Penning trap, the rotating wall potential $\phiwall$, and the
+Coulomb potential for the interaction between the ions.
+
+In addition to the conservative dynamics described by the
+Hamiltonian the ions are subject to radiation pressure forces due
+the cooling lasers. We describe the radiation pressure force
+using a stochastic model. We discuss this model in more detail
+when we consider the computational integration of the ion motion
+in the next section.
+
 
 \subsection{Numerical algorithm}
 
@@ -134,6 +180,6 @@ Carlo (DSMC).
 
 \section{Conclusion}
 
-\bibliography
+\bibliography{cooling_bibliography}
 
 \end{document}
