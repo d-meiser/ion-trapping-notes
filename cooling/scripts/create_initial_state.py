@@ -15,7 +15,7 @@ v_wall = 1.0
 mode_analysis = mode_analysis_code.ModeAnalysis(N=num_ions,
                                                 Vtrap=(0.0, -1750.0, -1970.0),
                                                 Vwall=v_wall,
-                                                frot=frot)
+                                                frot=1.0e-3 * frot)
 mode_analysis.run()
 
 
