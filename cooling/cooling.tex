@@ -1,5 +1,5 @@
 % -*- mode: latex; fill-column: 65; -*-
-\documentclass[aps, pra, twocolumn]{revtex4-1}
+\documentclass[aps, pra, preprint]{revtex4-1}
 \usepackage{todonotes}
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -237,6 +237,23 @@ depends both on the positions of the ions and their momenta.
 
 \subsection{Convergence}
 
+One of the most basic tests of the correctness of our time
+integration scheme is to verify that it converges to a solution
+as the time step size is reduced. To evaluate the convergence we
+start with a steady state solution, impart some perturbation on
+it, and then we integrate the ensemble's dynamics for a certain
+period of time. At the end of the time interval we compute the
+error in the positions of the ions,
+\begin{equation}
+  \Delta x = \sqrt{\sum_{i=1}^N(\mathbf{x}_i-\mathbf{x}_i^{\rm ref})^2}\;.
+\end{equation}
+The reference solution is obtained using the same integration
+scheme with a time step size of $\Delta t=????$.
+\begin{figure}
+  \includegraphics{./figures/fig_convergence.pdf}
+  \caption{Convergence plot. Say something about it here}
+  label{fig:convergence}
+\end{figure}
 
 
 \section{Single-plane to multi-plane instability}
