@@ -116,8 +116,7 @@ def compute_error(dt, initial_state, ref_sol):
     trap_potential.reset_phase()
     my_ensemble = initial_state.copy()
     evolve_ensemble(dt, t_max, my_ensemble, mode_analysis.B, forces)
-    # return mean_error(ref_sol.x, my_ensemble.x)
-    return np.linalg.norm(ref_sol.x - my_ensemble.x)
+    return mean_error(ref_sol.x, my_ensemble.x)
 
 
 dt_min = 1.0e-9
