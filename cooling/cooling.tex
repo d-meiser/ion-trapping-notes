@@ -1,9 +1,13 @@
 % -*- mode: latex; fill-column: 65; -*-
 \documentclass[aps, pra, preprint]{revtex4-1}
-\usepackage{todonotes}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{siunitx}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{blindtext}
+\presetkeys%
+    {todonotes}%
+    {inline,backgroundcolor=yellow}{}
 
 \bibliographystyle{apsrev4-1}
 
@@ -135,13 +139,16 @@ where the free Hamiltonian
   \sum_{i=1}^N \frac{1}{2m_i}\left(
     \mathbf{p}_i -
     q_i\mathbf{A}(\mathbf{x}_i) \right)^2 
+  \label{eqn:total_hamiltonian}
 \end{equation}
 includes the vector potential $\mathbf{A}$ corresponding to the
 axial magnetic field in the Penning trap, $\mathbf{B} =
-\mathbf{\nabla}\times \mathbf{A}$, parallel to the $z$ axis. In
-these equations $N$ is the number of ions in the trap, $m_i$ is
-the mass of ion $i$, $q_i$ its charge, and the electrostatic
-potential
+\mathbf{\nabla}\times \mathbf{A}$, parallel to the $z$ axis. We
+choose $\mathbf{A} = yB_z\mathbf{\hat x}$ with $\mathbf{\hat
+  x}=\mathbf{x}/x$ the unit vector along $\mathbf{x}$. In
+Eqn.~\eqref{eqn:total_hamiltonian} $N$ is the number of ions in
+the trap, $m_i$ is the mass of ion $i$, $q_i$ its charge, and the
+electrostatic potential
 \begin{equation}
   \varphi(\mathbf{x}_i) =
   \phicap(\mathbf{x}_i) +
@@ -150,10 +157,44 @@ potential
   \frac{1}{4\pi\varepsilon_0}\
   \frac{q_j}{\left| \mathbf{x_i} - \mathbf{x_j} \right|}
 \end{equation}
-contains the potential $\phicap$\todo{Need discussion of
-$\phicap$} due to the end-cap electrodes in the Penning trap,
-the rotating wall potential $\phiwall$, and the Coulomb potential
-for the interaction between the ions.
+contains the potential $\phicap$ due to the end-cap electrodes in
+the Penning trap, the rotating wall potential $\phiwall$, and the
+Coulomb potential for the interaction between the ions. In the
+vicinity of the ion crystal the end-cap and rotating wall
+potentials are well approximated by harmonic potentials. We
+parametrize them as
+\begin{equation}
+  \phicap(\mathbf{x}) +\phiwall(\mathbf{x}) =\frac{1}{2}k_z z^2 - 
+\frac{1}{2} \left(k_x x_r^2 + k_y y_r^2\right)
+\end{equation}
+where
+\begin{equation}
+k_x=\left(\frac{1}{2}+\delta\right)k_z,\qquad 
+k_y=\left(\frac{1}{2}-\delta\right)k_z\;,
+\end{equation}
+The dimensionless parameter $\delta$ characterizes the strength
+of the rotating wall potential. The coordinates of the ions in
+the rotating frame $[x_r, y_r]^T$ are given by
+\begin{equation}
+\left[
+\begin{array}{c}
+x_r\\
+y_r
+\end{array}\right] =
+\left[
+\begin{array}{cc}
+\cos(\vartheta(t)) & -\sin(\vartheta(t))\\
+\sin(\vartheta(t)) & \cos(\vartheta(t))
+\end{array}\right]
+\left[\begin{array}{c}
+x\\
+y
+\end{array}\right]\;.
+\end{equation}
+The phase of the rotating wall potential is
+\begin{equation}
+\vartheta(t)=\omega_R t+\vartheta_0\;.
+\end{equation}
 
 In addition to the conservative dynamics described by the
 Hamiltonian the ions are subject to radiation pressure forces due
@@ -228,6 +269,116 @@ momentum kick as
 \mathbf{k} + \sum_{i=1}^{n_{\rm scattered}} \hbar \mathbf{k}_i\;.
 \end{equation}
 \todo{Discuss limitations of this approach. Low saturation.}
+
+\todo{Integrate the following section from previous draft into
+  this discussion}
+We adopt a very simplistic model of laser cooling which is directly
+motivated by the microscopic physics upon which laser cooling based.
+This model has the advantage of automatically including both
+deterministic damping as well as the fluctuating forces inherent in
+laser cooling.  Both of these components of the radiation pressure force
+are required by the fluctuation dissipation theorem.  The balance
+between them gives rise to the Doppler limit.
+
+We model the internal structure of the ions by two quantum mechanical
+levels representing the two states involved in the cycling transition
+used for laser cooling.  A two level atom at position $\mathbf{r}$
+scatters photons out of a laser beam with wavevector $\mathbf{k}$ with a
+rate
+\begin{equation}
+\dot n (\mathbf{r}, \mathbf{v}) = 
+S(\mathbf{r})\frac{\gamma_0}{2\pi}
+\frac{(\gamma_0/2)^2}{(\gamma_0/2)^2(1+2S(\mathbf{r}))+\Delta^2(\mathbf{v})}\;,
+\end{equation}
+where $\gamma_0$ is the natural linewidth of the cycling transition (in
+radians per second), $S(\mathbf{r})$ is the saturation parameter, and
+$\Delta(\mathbf{v})=\Delta_0 + \mathbf{k}\cdot\mathbf{v}$ is the
+detuning of the cooling transition from the laser frequency including
+the first order Doppler shift.  We assume that the atoms scatter photons
+with this rate with Poissonian number statistics\footnote{Strictly
+speaking, this is only valid in the limit of low saturation (for
+$S\sim 1$ we have to take into account anti-bunching).}.  We take into
+account the beam profile by multiplying the saturation parameter with a
+Gaussian factor that accounts for the spatial structure of the laser,
+\begin{equation}
+S(\mathbf{r})=e^{-\rho^2/\sigma^2}S_0\;,
+\end{equation}
+where $\rho$ is the distance of the atom from the center of the beam and
+$\sigma$ is the $1/e$ radius of the intensity of the beam.
+
+To simulate laser cooling we proceed as follows.  First we compute the
+mean number of photons scattered by ion $j$ in time interval $\Delta t$,
+\begin{equation}
+n_j=\dot{n}_j \Delta t
+\end{equation}
+The velocities and positions needed for computing $\dot{n}_j$ are taken
+at the center of the time step in accordance with the integration scheme
+discussed above.  We then compute the actual number of photons scattered
+by each ion as a Poissonian random number with mean $n_j$.  Each
+particle receives a total momentum kick of 
+\begin{equation}
+\mathbf{\Delta p}_j = \mathbf{\Delta p_{j,{\rm absorb}}} + 
+\mathbf{\Delta p_{j,{\rm emit}}}\;,
+\end{equation}
+where $\mathbf{\Delta p_{j,{\rm absorb}}}=n_j \hbar \mathbf{k}$ and
+$\mathbf{\Delta p_{j,{\rm emit}}}$ is the recoil corresponging to $n_j$
+photons scattered in random directions.  To compute $\mathbf{\Delta
+p_{j,{\rm emit}}}$ we generate $n_j$ vectors of length $\hbar k$
+pointing in random directions.  The recoil momentum $\mathbf{\Delta
+p}_{j,{\rm emit}}$ is then obtained by adding up these vectors.
+
+This approach captures the microscopic physics of laser cooling except
+for two phenomena.  First, in the case of strong saturation,
+$S\gtrsim 1$, quantum statistical phenomena start to play a role.
+These manifest themselves in the form of anti-bunching of the photons
+scattered in resonance fluorescence.  In essence, there is an
+anti-correlation between photon emission events due to the fact that
+immediately after a photon emission an atom is in the ground state with
+certainty and therefore cannot emitt another photon right away.  This
+correction to resonance fluorescence is probably rather unimportant in
+the current context, especially because the saturation parameter is not
+very much greater than 1.  The other approximation entering our model is
+that the photon emission is nearly instantaneous relative to the
+dynamics of the ions, i.e. the motion is uniform during an excited
+state lifetime,
+\begin{equation}
+\eta \equiv T_{\rm cycl}(\gamma_0/(2\pi)) \ll 1\;.
+\end{equation}
+In our case this ratio is approximately $\eta \sim 0.3$.  Furthermore we
+have to ensure in the simulations that
+\begin{equation}
+\Delta t \lesssim S\gamma_0/(2\pi)
+\end{equation}
+avoid having many photon emission events based on a velocity that was
+only realized for a small fraction of the time step.
+
+
+\section{Free space laser cooling}
+
+As a simple test of our laser cooling model we simulate free space laser
+cooling, i.e. the ions are not subject to any trapping or magnetic
+fields.  Figure~\ref{fig:FreeSpaceCooling} shows the velocities of 10 Be
+ions subject to laser cooling.  The atoms start with a velocity of
+$20{\rm m}/{\rm s}$ in the positive $z$ direction.  Two counter
+propagating lasers pointed along the $z$ axis irradiate the atoms. The
+two counter propagating cooling lasers have peak intensities of $S=0.1$
+and are detuned by $0.5\gamma_0$ to the red of the cycling transition at
+$313{\rm nm}$.  The atomic linewidth is $\gamma_0=19\times {\rm MHz}$ .
+The laser propagating in the $-z$ direction has a beam waist of
+$0.01{\rm m}$ and the beam propagating in the $z$ direction has a
+uniform intensity profile (i.e. inifinite beam diameter).
+
+\todo{Make figure for free space cooling.}
+As can be seen in Fig.~\ref{fig:FreeSpaceCooling}, the ions are cooled
+to the Doppler limit.  Eventually until they diffuse out of the $-z$
+beam.  After that they are accelerated by the unbalanced power in the
+$z$ direction.  The rms velocity at the Doppler temperature is
+\begin{equation}
+\sqrt{\langle v_z^2\rangle} = \frac{\hbar \gamma_0}{3 m} \approx
+0.25{\rm m}/{\rm s}\;,
+\end{equation}
+which is in good agreement with our simulations
+\domcomment{Should measure our temperature and calibrate}.
 
 In the absence of laser cooling the integration formula is
 symplectic. This means that the integrator is long term stable
