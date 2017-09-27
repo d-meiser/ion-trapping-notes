@@ -150,9 +150,10 @@ potential
   \frac{1}{4\pi\varepsilon_0}\
   \frac{q_j}{\left| \mathbf{x_i} - \mathbf{x_j} \right|}
 \end{equation}
-contains the potential $\phicap$ due to the end-cap electrodes in
-the Penning trap, the rotating wall potential $\phiwall$, and the
-Coulomb potential for the interaction between the ions.
+contains the potential $\phicap$\todo{Need discussion of
+$\phicap$} due to the end-cap electrodes in the Penning trap,
+the rotating wall potential $\phiwall$, and the Coulomb potential
+for the interaction between the ions.
 
 In addition to the conservative dynamics described by the
 Hamiltonian the ions are subject to radiation pressure forces due
@@ -240,19 +241,61 @@ depends both on the positions of the ions and their momenta.
 One of the most basic tests of the correctness of our time
 integration scheme is to verify that it converges to a solution
 as the time step size is reduced. To evaluate the convergence we
-start with a steady state solution, impart some perturbation on
-it, and then we integrate the ensemble's dynamics for a certain
-period of time. At the end of the time interval we compute the
-error in the positions of the ions,
+initialize our simulation with a steady state configuration of
+127 ions shown in Fig.~\ref{fig:initial_state_top_view}. Here and
+in the results discussed below we use parameters typical for the
+Penning trap at NIST Boulder with a homogeneous magnetic field of
+$B=\SI{4.4588}{\tesla}$,
+a trap rotation frequency of $\omega_{\rm trap}=2\pi\times
+\SI{180}{\kilo \hertz}$, end cap voltages yielding a confining
+potential of $k_z=\ldots$\todo{What are the units here?}, and a
+rotating wall potential of $V_{\rm Wall} = \SI{1}{\volt}$
+yielding $\delta=\SI{3.5e-4}{}$.
+\begin{figure}
+  \includegraphics{./figures/fig_initial_state_top_view.pdf}
+  \caption{Top view of steady state configuration of ions in
+    Penning trap used for convergence study.}
+  \label{fig:initial_state_top_view}
+\end{figure}
+
+Starting from this initial steady state configuration we
+integrate the equations of motion for $\SI{10}{\us}$ using
+different time step sizes. For each time step size we compare the
+final solution with a reference solution computed using a time
+step size of $\Delta t = \SI{2e-10}{\second}$. We compute the
+error $\Delta x(\Delta t)$ in the simulation result
+$\mathbf{x}(\Delta t)$ as the average Euclidian distance between
+the reference solution $\mathbf{x}^{\rm
+  ref}=\mathbf{x}(\SI{2.0e-10}{\second})$,
 \begin{equation}
-  \Delta x = \sqrt{\sum_{i=1}^N(\mathbf{x}_i-\mathbf{x}_i^{\rm ref})^2}\;.
+  \Delta x(\Delta t) =
+  \sqrt{N^{-1}\sum_{i=1}^N\left(
+      \mathbf{x}_i(\Delta t)-\mathbf{x}_i^{\rm ref}\right)^2}\;.
 \end{equation}
-The reference solution is obtained using the same integration
-scheme with a time step size of $\Delta t=????$.
+
+The result is shown in Fig.~\ref{fig:convergence}. The error
+decreases quadratically for time step sizes below approximately
+$\SI{1.0e-7}{\second}$. At time step size of $\Delta t =
+\SI{1}{\nano\second}$ the mean position error of the ions is
+$\Delta x(\SI{1}{\nano\second})\approx \SI{1}{\nano\meter}$. For
+reference, during this time interval the ions move on the order
+of $\SI{1}{\milli\meter}$, i.e. the ion motion is integrated with
+a relative error on the order of $\SI{1.0e-6}{}$. For time step
+sizes greater than $\Delta t\approx 1.0e-7$ the integrator can be in
+resonance with some of the vibrational eigen modes of the system.
+Whenever the integrator is in resonance errors can grow
+indefinitely. While damping forces such as laser cooling can
+broaden the resonances and limit the growth of errors it is best
+to stick to time step sizes that are smaller than $\Delta t =
+\SI{1.0e-7}{\second}$. Results quoted in this paper were obtained
+with $\Delta t = \SI{1}{\nano\second}$ unless noted otherwise.
 \begin{figure}
   \includegraphics{./figures/fig_convergence.pdf}
-  \caption{Convergence plot. Say something about it here}
-  label{fig:convergence}
+  \caption{Integration errors as a function of time step size for
+    a total time integration time of $T=\SI{10}{\us}$ for a
+    typical Penning trap simulation. The dashed orange line is a
+    quadratic for orientation. See text for details.}
+  \label{fig:convergence}
 \end{figure}
 
 
