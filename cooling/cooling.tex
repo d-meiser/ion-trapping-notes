@@ -30,84 +30,72 @@ Boulder, CO 80301, USA.}
 Boulder, Colorado 80305, USA.}
 
 \begin{abstract}
-  Here goes the abstract.
-  \todo{Write abstract}
+  We develop a computational model for the analysis of ultra-cold
+  ions in Penning traps. We extensively verify our finite
+  temperature model by comparison with zero temperature models
+  and by considering well understood limiting cases. We validate
+  the model by comparison with experimental results for
+  single-plane to multi-plane instabilities of the ion crystal
+  and by comparison with experimentally observed spectra for the
+  out-of-plane modes of the ion crystal.
+  We then use our model to study the temperature of the in-plane
+  modes which are experimentally challenging to access. We find
+  that ...\todo{Findings for in-plane modes}
+  \todo{Optimization of laser cooling parameters}
 \end{abstract}
 
 \maketitle
 
 
-Ultra-cold ions in Penning traps are an experimental system that
-enable many studies at the forefront of quantum science and
-condensed matter physics. For many of these studies it is
-beneficial to prepare the ultra-cold ion ensemble in the coldest
-state possible. For example, for quantum
+Ultra-cold ions in Penning traps enable studies at the forefront
+of atomic physics\todo{references}, quantum
+science\todo{references}, and condensed matter
+physics\todo{references}. Many of these studies benefit from
+lower temperatures. Colder temperatures increase the crystal
+stability, decrease dephasing rates, and they can increase
+interrogation times. Improved crystal stability has the potential
+to enable optical access to individual lattice sites which could
+lead to higher fidelity state preparation and state readout for quantum
 metrology\todo{references} and quantum simulation
-experiments\todo{references}, cold temperatures enable single
-site optical access to individual ions for precise state
-preparation and high fidelity state readout. In squeezing
-experiments colder temperatures can reduce dephasing rates.
+experiments\todo{references}.
 
-{\bf For what types of experiments for are colder temperatures
-beneficial?}
-\begin{itemize}
-\item Metrology and squeezing experiments
-\item Quantum simulation experiments, Ising
-  model\cite{Britton:EngineeredIsingModel}, quantum magnetism,
-  condensed matter, etc.
-\item Quantum information and quantum computing? Is that within
-  reach for Penning trap experiments?
-\end{itemize}k
+The primary means of cooling ions in Penning traps are various
+forms of laser cooling including Doppler cooling and side band
+cooling. While the basic principles of laser cooling for
+ultra-cold ions is the same as for neutral atoms in
+magneto-optical traps there are also significant differences that
+can make it challenging to understand the experimentally achieved
+ion temperature, cooling limits, cooling and heating mechanisms,
+and that can make it more challenging to optimize the cooling
+laser parameters such as intensity and detuning as well as the
+cooling laser geometry.
 
-{\bf How do these experiments benefit from cold temperatures?}
-\begin{itemize}
-\item Improved crystal stability
-\item Longer interrogation times
-\item Higher fidelity state preparation
-\item Smaller dephasing rates
-\item Higher precision/fidelity state readout
-\item single site access
-\end{itemize}
+A major difference compared to neutral atom experiments is that
+ions in Penning traps move in a magnetic field several Tesla
+strong. The Lorentz force in the magnetic field forces the ions
+into circular orbits with a cyclotron frequency on the order of a
+few hundred kilo Hertz. The rotation of the ions in the magnetic
+field means that the ions velocity periodically changes direction
+relative to any cooling laser beams that are stationary in the
+laboratory frame of reference. A second major difference is the
+strong interaction between the ions due to the Coulomb force. The
+Coulomb force couples the ions into collective modes of motion.
+In contrast to the cooling dynamics of neutral atoms---which is
+largely a single particle phenomenon---it is necessary to take
+the collective nature of the ion motion into account to fully
+understand the cooling dynamics of ultra-cold ions in Penning
+traps.
 
-{\bf How are cold temperatures achieved?} The primary means of
-cooling ions in Penning traps are various forms of laser cooling
-including Doppler cooling and side band cooling. While the basic
-principles of laser cooling for ultra-cold ions is the same as
-for neutral atoms in magneto-optical traps there are also
-significant differences that can make it challenging to
-understand the experimentally achieved ion temperature, cooling
-limits, cooling and heating mechanisms, and that can make it more
-challenging to optimize the cooling laser parameters such as
-intensity and detuning as well as the cooling laser geometry.
-
-{\bf What is different and more challenging for ions compared to
-neutral atoms?} A major difference compared to neutral atom
-experiments is that ions in Penning traps move in a magnetic
-field several Tesla strong. The Lorentz force in the magnetic
-field forces the ions into circular orbits with a cyclotron
-frequency on the order of a few hundred kilo Hertz. The rotation
-of the ions in the magnetic field means that the ions velocity
-periodically changes direction relative to any cooling laser
-beams that are stationary in the laboratory frame of reference. A
-second major difference is the strong interaction between the
-ions due to the Coulomb force. The Coulomb force couples the ions
-into collective modes of motion. In contrast to the cooling
-dynamics of neutral atoms---which is largely a single particle
-phenomenon---it is necessary to take the collective nature of the
-ion motion into account to fully understand the cooling dynamics
-of ultra-cold ions in Penning traps.
-
-{\bf What do we contribute in this paper?} To help us better
-understand the dynamics of ultra-cold ions in Penning traps we
-have developed computer simulations that allow us to
-quantitatively track the dynamics of the ions over time scales
-from fractions of a nano-second all the way to milli seconds and
-seconds. In this paper we demonstrate the validity of these
-simulations by comparison with other simulations as well as by
-comparison with experimental data. We then use these simulations
-to study the spectra of the out-of-plane and in-plane modes of
-motion of ultra-cold ions. We compute the temperatures of these
-modes and determine optimal laser cooling parameters.
+To help us better understand the dynamics of ultra-cold ions in
+Penning traps we have developed computer simulations that allow
+us to quantitatively track the dynamics of the ions over time
+scales from fractions of a nano-second all the way to milli
+seconds and seconds. In this paper we demonstrate the validity of
+these simulations by comparison with other simulations as well as
+by comparison with experimental data. We then use these
+simulations to study the spectra of the out-of-plane and in-plane
+modes of motion of ultra-cold ions. We compute the temperatures
+of these modes and determine optimal laser cooling parameters.
 
 {\bf Who has studied cooling dynamics before? How did they do
 it?} Need a significant review of the existing literature here.
@@ -116,10 +104,24 @@ Molecular Dynamics simulations, analytical studies, fluid models,
 tracking codes, particle methods, PIC, Direct Simulation Mode
 Carlo (DSMC).
 
-{\bf What will we discuss in the rest of this paper}
+The rest of this article is organized as follows. We begin by
+discussing the mathematical model and computational approach
+underlying our analysis in section~\ref{sec:model}. We then
+verify our simulations by comparison with zero temperature models
+in section~\ref{sec:verification}. Specifically, we compare
+steady state solutions and  spectra for the out-of-plane modes of the
+ion crystal. We validate the simulations by comparison with
+experimental results for the single-plane to multi-plane
+instability in section~\ref{sec:validation}. In
+section~\ref{sec:inplanemodes} we consider the in-plane modes and
+in section~\ref{sec:optimization} we present a numerical
+optimization of the laser cooling parameters and we discuss the
+coldest temperatures achievable with Doppler cooling. We wrap up
+with section~\ref{sec:conclusion}
 
 
 \section{Model and computational algorithm}
+\label{sec:model}
 
 In this section we describe our mathematical model as well as the
 computational techniques used in our simulations.
@@ -378,7 +380,7 @@ $z$ direction.  The rms velocity at the Doppler temperature is
 0.25{\rm m}/{\rm s}\;,
 \end{equation}
 which is in good agreement with our simulations
-\domcomment{Should measure our temperature and calibrate}.
+\todo{Should measure our temperature and calibrate}.
 
 In the absence of laser cooling the integration formula is
 symplectic. This means that the integrator is long term stable
@@ -451,6 +453,7 @@ with $\Delta t = \SI{1}{\nano\second}$ unless noted otherwise.
 
 
 \section{Single-plane to multi-plane instability}
+\label{sec:validation}
 
 
 \section{Finite temperature mode analysis}
@@ -460,8 +463,16 @@ with $\Delta t = \SI{1}{\nano\second}$ unless noted otherwise.
 \subsection{In-plane modes}
 
 
+\section{In-plane modes}
+\label{sec:inplanemodes}
+
+
+\section{Optimization of laser cooling parameters}
+\label{sec:optimization}
+
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 \bibliography{cooling_bibliography}
 
