@@ -422,36 +422,35 @@ with $\Delta t = \SI{1}{\nano\second}$ unless noted otherwise.
 
 \subsection{Free space laser cooling}
 
-As a simple test of our laser cooling model we simulate free space laser
-cooling, i.e. the ions are not subject to any trapping or magnetic
-fields.  Figure~\ref{fig:FreeSpaceCooling} shows the velocities of 10 Be
-ions subject to laser cooling.  The atoms start with a velocity of
-$20{\rm m}/{\rm s}$ in the positive $z$ direction.  Two counter
-propagating lasers pointed along the $z$ axis irradiate the atoms. The
-two counter propagating cooling lasers have peak intensities of $S=0.1$
-and are detuned by $0.5\gamma_0$ to the red of the cycling transition at
-$313{\rm nm}$.  The atomic linewidth is $\gamma_0=19\times {\rm MHz}$ .
-The laser propagating in the $-z$ direction has a beam waist of
-$0.01{\rm m}$ and the beam propagating in the $z$ direction has a
-uniform intensity profile (i.e. inifinite beam diameter).
+As a simple test of our laser cooling model we simulate free
+space laser cooling. Free space means that the ions are not
+subject to any trapping or magnetic fields.
+Figure~\ref{fig:FreeSpaceCooling} shows the velocities of five
+Beryllium ions subject to laser cooling. The atoms start with a
+velocity of $v_x=\SI{10}{\meter/\second}$. The ions are
+irradiated by three counter propagating pairs of laser beams
+along the Cartesian axis $\pm\hat{\mathbf{x}}$,
+$\pm\hat{\mathbf{y}}$, and $\pm\hat{\mathbf{z}}$. The lasers have
+uniform intensities of $S=0.1$ and are detuned by $0.5\gamma_0$
+to the red of the cycling transition at $313{\rm nm}$. The atomic
+linewidth is $\gamma_0=2\pi\times \SI{19}{\mega\hertz}$.
 
-\todo{Make figure for free space cooling.}
-As can be seen in Fig.~\ref{fig:FreeSpaceCooling}, the ions are cooled
-to the Doppler limit.  Eventually until they diffuse out of the $-z$
-beam.  After that they are accelerated by the unbalanced power in the
-$z$ direction.  The rms velocity at the Doppler temperature is
+\begin{figure}
+  \includegraphics{./figures/fig_laser_cooling.pdf}
+  \caption{Trajectories of Beryllium ions undergoing laser
+    cooling.}
+  \label{fig:FreeSpaceCooling}
+\end{figure}
+As can be seen in Fig.~\ref{fig:FreeSpaceCooling}, the ions are
+cooled to the Doppler limit. The root mean squared velocity at the Doppler
+temperature is
 \begin{equation}
-\sqrt{\langle v_z^2\rangle} = \frac{\hbar \gamma_0}{3 m} \approx
-0.25{\rm m}/{\rm s}\;,
+\sqrt{\langle v_x^2\rangle} = \frac{\hbar \gamma_0}{m} \approx
+\SI{0.87}{\meter/\second}\;,
 \end{equation}
-which is in good agreement with our simulations
-\todo{Should measure our temperature and calibrate}.
-
-In the absence of laser cooling the integration formula is
-symplectic. This means that the integrator is long term stable
-and has the qualitatively correct behavior. However, the laser
-cooling terms break the symplecticity because the cooling force
-depends both on the positions of the ions and their momenta.
+which is in good agreement with the value of $\sqrt{\langle
+  v_x^2\rangle}=\SI{1.16}{\meter/\second}$ found in our
+simulation.
 
 
 \subsection{Single-plane to multi-plane instability}
