@@ -60,15 +60,20 @@ gamma = 2.0 * np.pi * 18.0e6
 hbar = 1.0e-34
 sigma = 1.0e0
 
-
-one_d_mot = [
-    coldatoms.RadiationPressure(gamma, np.array([hbar * k, 0.0, 0.0]),
-                      UniformBeam(S0=0.1),
-                      DopplerDetuning(-0.5 * gamma, np.array([k, 0.0, 0.0]))),
-    coldatoms.RadiationPressure(gamma, np.array([-hbar * k, 0.0, 0.0]),
-                      UniformBeam(S0=0.1),
-                      DopplerDetuning(-0.5 * gamma, np.array([-k, 0.0, 0.0])))
+wave_vectors = [
+    np.array([k, 0.0, 0.0]),
+    np.array([-k, 0.0, 0.0]),
+    np.array([0.0, k, 0.0]),
+    np.array([0.0, -k, 0.0]),
+    np.array([0.0, 0.0, k]),
+    np.array([0.0, 0.0, -k]),
 ]
+
+three_d_mot = [
+    coldatoms.RadiationPressure(gamma, hbar * k,
+                      UniformBeam(S0=0.1),
+                      DopplerDetuning(-0.5 * gamma, k)) for k in wave_vectors]
+
 
 # Reset positions and velocities to initial conditions.
 v0 = 10.0
@@ -78,7 +83,7 @@ ensemble.v[:, 0] = v0
 
 # The time step size.
 dt = 1.0e-6
-num_steps = 1000
+num_steps = 10000
 
 v = []
 t = []
@@ -86,13 +91,13 @@ t = []
 for i in range(num_steps):
     v.append(np.copy(ensemble.v))
     t.append(i * dt)
-    coldatoms.drift_kick(dt=dt, ensemble=ensemble,forces=one_d_mot)
+    coldatoms.drift_kick(dt=dt, ensemble=ensemble,forces=three_d_mot)
 v = np.array(v)
 t = np.array(t)
 
 
 plt.clf()
-num_vis_steps = 400
+num_vis_steps = 500
 for i in range(5):
     plt.plot(t[:num_vis_steps] / 1.0e-6, v[:num_vis_steps, i, 0])
 
@@ -102,8 +107,14 @@ plt.gcf().set_size_inches([default_width, default_height])
 plt.subplots_adjust(left=0.18, right=0.97, top=0.96, bottom=0.21)
 plt.savefig('fig_laser_cooling.pdf')
 
-v_squared = 0.0
+num_equilibrium_steps = 5000
+v_rms = 0.0
 for i in range(num_ptcls):
-    v_squared += np.linalg.norm(v[num_vis_steps:, i, 0])
-v_squared /= np.sqrt(num_steps - num_vis_steps) * num_ptcls
-print(v_squared)
+    v_rms += np.linalg.norm(v[num_equilibrium_steps:, i, 0])**2
+    v_rms += np.linalg.norm(v[num_equilibrium_steps:, i, 1])**2
+    v_rms += np.linalg.norm(v[num_equilibrium_steps:, i, 2])**2
+v_rms = np.sqrt(v_rms / (num_steps - num_equilibrium_steps) / num_ptcls)
+print(v_rms)
+
+v_rms_theory = np.sqrt(hbar * gamma/ ensemble.ensemble_properties['mass'])
+print(v_rms_theory)
