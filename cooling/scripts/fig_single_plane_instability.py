@@ -26,6 +26,8 @@ golden_ratio = 1.61803398875
 default_height = default_width / golden_ratio
 
 
+# Preparation for computation of frequency sweep
+
 mode_analysis = mode_analysis_code.ModeAnalysis(N=127,
                                                 Vtrap=(0.0, -1750.0, -1970.0),
                                                 Vwall=1.0,
@@ -168,29 +170,6 @@ def make_sweep(omega_0, t_hold, t_sweep, delta_omega, t_hold_2):
     return omega_of_t
 
 
-# First just make a plot of the frequency sweep omega(t)
-
-t_max = 4.0e-3
-dt = 1.0e-9
-# We start out at 185kHz
-omega_0 = 2.0 * np.pi * 185.0e3
-# And stay there for a couple of revolutions
-t_hold = 1.0e-5
-# Then we sweep by 20kHz in 20 revolutions
-t_sweep = 1.0e-3
-delta_omega = 2.0 * np.pi * 20e3
-# Stay at that level for a millisecond, then sweep back
-t_hold_2 = 1.0e-3
-my_omega_of_t = make_sweep(omega_0, t_hold, t_sweep, delta_omega, t_hold_2)
-t = np.linspace(-1.0e-5, t_max, 200)
-omega = my_omega_of_t(t)
-plt.figure()
-plt.plot(t / 1.0e-3, omega / (1.0e3 * 2.0 * np.pi));
-plt.xlabel(r'$t/\si{\milli \second}$')
-plt.ylabel(r'$\omega / (2\pi \si{\kilo\hertz})$')
-plt.savefig('fig_frequency_sweep.pdf')
-
-
 # Now we simulate the frequency sweep
 
 kappa_theta = 5.0e6
@@ -262,6 +241,9 @@ omegas = np.array(omegas)
 print('total time (seconds): ', t_end - t_start)
 print('t per iter (micro seconds): ', 1.0e6 * (t_end - t_start) / times.size)
 
+
+# Plot thicknesses with an inset showing the frequency sweep.
+
 plt.clf()
 fig, ax1 = plt.subplots()
 
@@ -287,3 +269,25 @@ ax2.tick_params(axis='both', which='minor', labelsize=6, pad=1, length=2)
 
 plt.subplots_adjust(left=0.12, right=0.98, top=0.96, bottom=0.21)
 plt.savefig('fig_single_plane_instability.pdf')
+
+
+snapshot_indices = [
+    2400,
+    2650,
+    2750,
+]
+plt.clf()
+
+f, axarr = plt.subplots(len(snapshot_indices), sharex=True)
+for i in range(len(snapshot_indices)):
+    axarr[i].plot(1.0e6*snapshots[snapshot_indices[i]][2].x[:, 0],
+                1.0e6*snapshots[snapshot_indices[i]][2].x[:, 2],
+                'o', ms=2)
+
+for ax in axarr:
+    ax.set_ylim([-6, 6])
+    ax.set_ylabel(r'$y/\si{\micro\meter}$')
+axarr[-1].set_xlabel(r'$x/\si{\micro\meter}$')
+plt.gcf().set_size_inches([default_width, 1.3*default_height])
+plt.subplots_adjust(left=0.15, right=0.99, top=0.96, bottom=0.16)
+plt.savefig('fig_side_views_single_plane_instability.pdf')
