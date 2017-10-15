@@ -244,6 +244,12 @@ print('t per iter (micro seconds): ', 1.0e6 * (t_end - t_start) / times.size)
 
 # Plot thicknesses with an inset showing the frequency sweep.
 
+snapshot_indices = [
+    2400,
+    2650,
+    2760,
+]
+
 plt.clf()
 fig, ax1 = plt.subplots()
 
@@ -254,6 +260,9 @@ plt.ylabel(r'$\Delta z /\si{\micro\meter}$')
 plt.ylim([-0.1, 4])
 ax1.annotate("", xy=(194, 0.8), xytext=(194, 0.1),arrowprops=dict(arrowstyle="->"))
 ax1.annotate("", xy=(190, 0.7), xytext=(191.7, 1.2),arrowprops=dict(arrowstyle="->"))
+for idx in snapshot_indices:
+    ax1.plot(snapshots[idx][1]/(2.0 * np.pi * 1.0e3),
+            np.std(snapshots[idx][2].x[:,2]) * 1.0e6, 'ok', ms=4)
 plt.gcf().set_size_inches([default_width, default_height])
 
 l, b, w, h = [0.25, 0.68, 0.25, 0.25]
@@ -271,11 +280,8 @@ plt.subplots_adjust(left=0.12, right=0.98, top=0.96, bottom=0.21)
 plt.savefig('fig_single_plane_instability.pdf')
 
 
-snapshot_indices = [
-    2400,
-    2650,
-    2750,
-]
+# Side views of crystal during transition
+
 plt.clf()
 
 f, axarr = plt.subplots(len(snapshot_indices), sharex=True)
