@@ -63,6 +63,7 @@ mode_analysis = mode_analysis_code.ModeAnalysis(N=num_ions,
                                                 Vtrap=(0.0, -1750.0, -1970.0),
                                                 Vwall=v_wall,
                                                 frot=1.0e-3 * frot)
+mode_analysis.run()
 trap_potential = TrapPotential(
     2.0 * mode_analysis.Coeff[2], mode_analysis.Cw, mode_analysis.wrot, np.pi / 2.0)
 
@@ -173,8 +174,8 @@ plt.savefig('scr_side_view.pdf')
 
 # Now record trajectories for spectra
 dt = 1.0e-9
-sampling_period = 5.0e-7
-num_samples = 10000
+sampling_period = 2.5e-7
+num_samples = 2000
 finite_temperature_ensemble = my_ensemble.copy()
 trap_potential.reset_phase()
 trajectories = [finite_temperature_ensemble.x.copy()]
@@ -186,18 +187,25 @@ for i in range(num_samples):
 trajectories = np.array(trajectories)
 
 nu_nyquist = 0.5 / sampling_period
-nu_axis = np.linspace(-nu_nyquist, nu_nyquist, trajectories.shape[0])
+nu_axis = np.linspace(0.0, nu_nyquist, trajectories.shape[0] // 2)
 psd =  np.sum(np.abs(np.fft.fft(trajectories[:,:,2],axis=0))**2, axis=1)
+psd = psd[0 : psd.size//2 : 1] + psd[2*(psd.size//2) : psd.size//2 : -1]
 
 fig = plt.figure()
 spl = fig.add_subplot(111)
-spl.fill_between(nu_axis / 1.0e6, 1.0e-20, psd)
+for e in mode_analysis.axialEvalsE:
+    plt.semilogy(np.array([e, e]) / (2.0 * np.pi * 1.0e6),
+                 np.array([1.0e-9, 1.0e-7]),
+                 color='black', linewidth=0.5,
+                 zorder=0)
+spl.fill_between(nu_axis / 1.0e6, 1.0e-20, psd, zorder=10)
 spl.set_yscale("log")
-plt.semilogy(nu_axis / 1.0e6, psd, linewidth=0.75)
+plt.semilogy(nu_axis / 1.0e6, psd,
+             linewidth=0.75, color='blue', zorder=20)
 plt.xlabel(r'$\nu / \rm{MHz}$')
 plt.ylabel(r'PSD($z$)')
-plt.xlim([0.0, 0.8 * nu_nyquist/1.0e6])
-plt.ylim([1.0e-13, 1.0e-7])
+plt.xlim([1.0, 1.65])
+plt.ylim([1.0e-13, 1.0e-5])
 plt.gcf().set_size_inches([default_width, default_height])
-plt.subplots_adjust(left=0.2, right=0.97, top=0.98, bottom=0.2)
+plt.subplots_adjust(left=0.2, right=0.97, top=0.95, bottom=0.2)
 plt.savefig('fig_axial_spectrum.pdf')
