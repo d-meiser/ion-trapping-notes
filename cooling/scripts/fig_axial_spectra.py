@@ -5,6 +5,7 @@ import time
 import mode_analysis_code
 import coldatoms
 
+# Preamble for figures
 # Enable LaTeX
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -28,13 +29,14 @@ default_height = default_width / golden_ratio
 np.random.seed(2000)
 
 
-# Configuration
+# Trap and crystal configuration
 num_ions = 127
 frot = 180.0e3
 v_wall = 1.0
 
 
 # Forces
+
 coulomb_force = coldatoms.CoulombForce()
 
 
@@ -151,16 +153,24 @@ in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0
                                                GaussianBeam(in_plane_S0, np.array([0.0, sigma, 0.0]), np.array([k, 0.0, 0.0]), sigma),
                                                DopplerDetuning(-0.5 * gamma + sigma * mode_analysis.wr *k, np.array([k, 0.0, 0.0])))
 
+
+# Create an initial state with finite temperature by evolving from "ground
+# state" with laser cooling for 100 micro seconds. During this time each ion
+# scatters many photons.
 dt = 1.0e-9
 t_max = 1.0e-4
 my_ensemble = initial_state.copy()
 trap_potential.reset_phase()
 evolve_ensemble(dt, t_max, my_ensemble, mode_analysis.B,
                 forces + [in_plane_cooling] + axial_cooling)
+
+# Create a top view so we can verify that we still have a crystal.
 plt.clf()
 plt.plot(my_ensemble.x[:,0], my_ensemble.x[:,1],'o')
 plt.savefig('scr_top_view.pdf')
 
+# The side view shows that the ions have a finite temperature (finite thickness
+# of the crystal).
 plt.clf()
 plt.plot(1.0e6 * my_ensemble.x[:,0], 1.0e6 * my_ensemble.x[:,2], 'o', ms=2)
 plt.xlim([-120, 120])
@@ -174,8 +184,11 @@ plt.savefig('scr_side_view.pdf')
 
 # Now record trajectories for spectra
 dt = 1.0e-9
+# 0.25 micro seconds gives a Nyquist frequency of 2MHz.
 sampling_period = 2.5e-7
-num_samples = 2000
+# Integrating for a total of sampling_period * num_samples = 5.0e-3 s gives a
+# frequency resolution of 200Hz.
+num_samples = 20000
 finite_temperature_ensemble = my_ensemble.copy()
 trap_potential.reset_phase()
 trajectories = [finite_temperature_ensemble.x.copy()]
@@ -191,21 +204,44 @@ nu_axis = np.linspace(0.0, nu_nyquist, trajectories.shape[0] // 2)
 psd =  np.sum(np.abs(np.fft.fft(trajectories[:,:,2],axis=0))**2, axis=1)
 psd = psd[0 : psd.size//2 : 1] + psd[2*(psd.size//2) : psd.size//2 : -1]
 
+
+# Make a plot of the whole spectrum.
 fig = plt.figure()
 spl = fig.add_subplot(111)
 for e in mode_analysis.axialEvalsE:
     plt.semilogy(np.array([e, e]) / (2.0 * np.pi * 1.0e6),
-                 np.array([1.0e-9, 1.0e-7]),
-                 color='black', linewidth=0.5,
-                 zorder=0)
-spl.fill_between(nu_axis / 1.0e6, 1.0e-20, psd, zorder=10)
+                 np.array([1.0e-13, 1.0e-5]),
+                 color='gray', linewidth=0.5,
+                 zorder=-3)
+spl.fill_between(nu_axis / 1.0e6, 1.0e-20, psd, zorder=-2)
 spl.set_yscale("log")
 plt.semilogy(nu_axis / 1.0e6, psd,
-             linewidth=0.75, color='blue', zorder=20)
+             linewidth=0.75, color='blue', zorder=-1)
 plt.xlabel(r'$\nu / \rm{MHz}$')
 plt.ylabel(r'PSD($z$)')
 plt.xlim([1.0, 1.65])
-plt.ylim([1.0e-13, 1.0e-5])
+plt.ylim([1.0e-13, 1.0e-4])
 plt.gcf().set_size_inches([default_width, default_height])
 plt.subplots_adjust(left=0.2, right=0.97, top=0.95, bottom=0.2)
 plt.savefig('fig_axial_spectrum.pdf')
+
+
+# And a close up of the interval [1.4 MHz, 1.5 MHz].
+fig = plt.figure()
+spl = fig.add_subplot(111)
+for e in mode_analysis.axialEvalsE:
+    plt.semilogy(np.array([e, e]) / (2.0 * np.pi * 1.0e6),
+                 np.array([1.0e-13, 1.0e-5]),
+                 color='gray', linewidth=0.5,
+                 zorder=-3)
+spl.fill_between(nu_axis / 1.0e6, 1.0e-20, psd, zorder=-2)
+spl.set_yscale("log")
+plt.semilogy(nu_axis / 1.0e6, psd,
+             linewidth=0.75, color='blue', zorder=-1)
+plt.xlabel(r'$\nu / \rm{MHz}$')
+plt.ylabel(r'PSD($z$)')
+plt.xlim([1.4, 1.5])
+plt.ylim([1.0e-13, 1.0e-4])
+plt.gcf().set_size_inches([default_width, default_height])
+plt.subplots_adjust(left=0.2, right=0.97, top=0.95, bottom=0.2)
+plt.savefig('fig_axial_spectrum_detail.pdf')
