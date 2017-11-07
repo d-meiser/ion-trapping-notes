@@ -1,0 +1,235 @@
+% -*- mode: latex; fill-column: 65; -*-
+\documentclass[aps, pra, preprint]{revtex4-1}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{blindtext}
+\presetkeys%
+    {todonotes}%
+    {inline,backgroundcolor=yellow}{}
+
+\frenchspacing
+
+\bibliographystyle{apsrev4-1}
+
+\begin{document}
+
+\title{Determination of temperatures of the axial modes of an ion
+  crystal in a Penning trap}
+\author{Dominic Meiser}
+\affiliation{Trimble Inc, Boulder, 4730 Walnut Street, Suite 201,
+  Boulder, CO 80301, USA.}
+
+\begin{abstract}
+  These notes discuss how to extract the temperatures of the
+  drum-head modes of a crystal of ultra-cold ions in a Penning
+  trap.
+\end{abstract}
+
+\maketitle
+
+
+\section{The drum head modes of an ion crystal}
+
+We consider an ensemble of $N$ ions in a Penning trap with the
+magnetic field aligned with the $z$ axis. We assume that the
+motion of the ions along the $z$ direction is decoupled from the
+other degrees of freedom and we consider the $z$ degrees of
+freedom only.
+
+The Hamiltonian is given by
+\begin{equation}
+  H=
+    \sum_{j=1}^N\frac{p_j^2}{2m_j} +
+    \sum_{j=1}^NV_1(z_j) +
+    \sum_{\substack{i,j = 1\\i\neq j}}^{N}V_2(z_i - z_j)\;.
+\end{equation}
+In this equation, $p_j$ is the $z$-component of the momentum of
+ion $j$. The single particle potential $V_1$ represents the
+electrostatic trap potentials, and the pairwise interactions
+$V_2$ are due to the Coulomb interaction. 
+
+Expanding the Hamiltonian to second order around the stable
+steady state at $z_j=0$, we obtain
+\begin{equation}
+  H\approx 
+    \sum_{j=1}^N \frac{p_j^2}{2m_j} +
+    \frac{1}{2}\sum_{j=1}^N m_j \omega_z^2 z_j^2+
+    \frac{1}{2}\sum_{\substack{i,j = 1\\i\neq j}}^{N} V_{ij}(z_i-z_j)^2\;.
+\end{equation}
+
+Introducing the vectors
+\begin{equation}
+  z=\left[
+    \begin{array}{c}
+      z_1\\
+      z_2\\
+      \vdots
+    \end{array}
+  \right]
+\end{equation}
+and
+\begin{equation}
+  p=\left[
+    \begin{array}{c}
+      p_1\\
+      p_2\\
+      \vdots
+    \end{array}
+  \right]
+\end{equation}
+along with the matrices
+\begin{equation}
+  M=\left[
+    \begin{array}{ccc}
+      m_1&0&\hdots\\
+      0&m_2&\\
+      \vdots&&\ddots
+    \end{array}
+  \right]
+\end{equation}
+and
+\begin{equation}
+  V=\left[
+    \begin{array}{cccc}
+      m_1\omega_z^2&V_{1,2}&V_{1,3}&\hdots\\
+      V_{2,1}&m_2\omega_z^2&V_{2,3}&\hdots\\
+      V_{3,1}&V_{3,2}&m_3\omega_z^2&\\
+      \vdots&\vdots&&\ddots
+    \end{array}
+  \right]\;,
+\end{equation}
+we can write the linearized Hamiltonian as
+\begin{equation}
+  H =
+  \frac{1}{2}\left\langle p, M^{-1}p \right\rangle +
+  \frac{1}{2}\left\langle z, V z \right \rangle\;.
+  \label{eqn:linearized_hamiltonian}
+\end{equation}
+
+The equations of motion are
+\begin{eqnarray}
+  \dot{z} = \frac{\partial H}{\partial p} = M^{-1}p\label{eqn:zdot}\\
+  \dot{p} = -\frac{\partial H}{\partial z} = -Vz\label{eqn:pdot}\;.
+\end{eqnarray}
+Taking another time derivative of Eqn.~\eqref{eqn:zdot} and
+substituting Eqn.~\eqref{eqn:pdot} we find
+\begin{equation}
+  M\ddot{z}=-Vz\;.
+\end{equation}
+Making the ansatz
+\begin{equation}
+  z(t)=e^{i\omega t}z(0)
+\end{equation}
+we obtain the eigenvalue equation
+\begin{equation}
+  M\omega^2z = Vz\;.
+\end{equation}
+Since $M$ and $V$ are symmetrical we have a complete orthogonal
+set of eigenvectors $\phi_1, \phi_2,\ldots$ with eignvalues
+$\omega_1, \omega_2, \ldots$. We assume that the eigenmodes are
+normalized according to
+\begin{equation}
+  \left\langle \phi_m,\phi_n\right \rangle = a^2\delta_{m,n}
+\end{equation}
+where $a$ is the unit of length and $\delta_{m,n}$ is Kronecker's
+delta symbol.
+
+
+\section{Energy in terms of eigenmodes}
+
+We can insert the expansion of the ion trajectories in terms of the
+eigenmodes,
+\begin{equation}
+  z=\sum_{m=1}^N e^{i\omega_m t} \alpha_m \phi_m\;,
+\end{equation}
+into the Hamiltonian Eqn.~\eqref{eqn:linearized_hamiltonian}. A
+simple calculation yields
+\begin{equation}
+  H=\sum_{m,n=1}^Na^2\left| \alpha_m\right|^2\omega_m^2\left\langle \phi_m,M\phi_n \right\rangle\;.
+\end{equation}
+This can be further simplified in the case where all ions
+have the same mass, $m=m_1=m_2=\ldots$. We now specialize our
+discussion to that case. We obtain
+\begin{equation}
+  H=ma^2\sum_{m=1}^N\omega_m^2\left| \alpha_m \right|^2\;.
+\end{equation}
+Each mode contains an energy of
+\begin{equation}
+  E_m=ma^2\omega_m^2\left| \alpha_m \right|^2\;.
+\end{equation}
+Note that if we were to choose the harmonic oscillator length,
+$a_{\rm osc}=\sqrt{\hbar/(m\omega_m)}$ as the unit of length this
+reduces to the well know formula
+\begin{equation}
+  E_m=\hbar\omega_m\left| \alpha_m \right|^2\;.
+\end{equation}
+But the choice of unit of length is immaterial for our discussion here.
+
+
+\section{Determination of mode energies from spectra}
+
+From the dynamical simulations we compute the power spectral
+density
+\begin{equation}
+  I(\omega) =
+    \sum_{j=1}^N\left| \tilde{z}_j(\omega) \right|^2 +
+    \sum_{j=1}^N\left| \tilde{z}_j(-\omega) \right|^2 =
+    \left\langle \tilde{z}(\omega), \tilde{z}(\omega)\right \rangle +
+    \left\langle \tilde{z}(-\omega), \tilde{z}(-\omega)\right \rangle 
+    \;.\label{eqn:psd}
+\end{equation}
+In this equation, $\tilde{z}_j$ is the Fourier transform of the
+trajectory of ion $j$,
+\begin{equation}
+  \tilde{z}_j(\omega) = \frac{1}{T}\int_0^T e^{-i\omega t}z_j(t)\, dt,
+\end{equation}
+with $T$ the total integration time of the simulation. Inserting
+our mode expansion the power spectral density becomes
+\begin{equation}
+  I(\omega) =
+  \sum_{m=1}^N\frac{a^2 \left| \alpha_m \right|^2}{T^2}\int_0^T\int_0^T\left( e^{-i(\omega-\omega_m)(t-t^\prime)} + e^{i(\omega+\omega_m)(t-t^\prime} \right)\,dt\,dt^\prime\;.
+\end{equation}
+We now consider a single resonance $\omega_m$ and assume that
+its resonance is well resolved. In that case we can integrate the
+power spectral density over the resonance. We find
+\begin{equation}
+  \int_{\omega_m-\Delta}^{\omega_m+\Delta} I(\omega)\,d\omega =
+  \frace{\pi a^2}{T}\left| \alpha_m \right|^2\;,
+\end{equation}
+where we have assume that $\Delta\gg T^{-1}$. Solving for
+$|\alpha_m|^2$ and inserting in the expression for the mode
+energy we find
+\begin{equation}
+  E_m=m\omega_m^2\frac{T}{\pi}\int_{\omega_m-\Delta}^{\omega_m+\Delta}I(\omega)\,d\omega\;.
+\end{equation} 
+
+
+\section{Note on discrete signals and discrete Fourier transform}
+
+In the simulations we sample the ion motion with a constant
+sampling rate. The Fourier transform becomes a discrete Fourier
+transform which we evaluate with the aid of a Fast Fourier
+Transform. We can consider the discrete Fourier transform as a
+Riemann sum approximation to the Fourier transform,
+\begin{equation}
+  \tilde{z}(\omega)=
+  T^{-1}\int_0^Te^{-i\omega t}z(t)\,dt \approx
+  \sum_n^{N_s}\frac{\Delta t}{T}e^{-i\omega n\Delta t}z(n \Delta t) =
+  \frac{1}{N_s}\sum_n^{N_s}e^{-i\omega n\Delta t}z(n \Delta t)\;.
+\end{equation}
+In this equation, $N_s$ is the total number of samples and
+$\Delta t$ is the sample period. Introducing the frequency grid
+spacing $\Delta\omega=2\pi/T$ we can write the approximate
+Fourier transform as
+\begin{equation}
+  \tilde{z}(l\Delta\omega)\approx
+  \frac{1}{N_s}\sum_n^{N_s}e^{-i2\pi ln/N_s}z(n \Delta t)\;.
+\end{equation}
+We have to keep in mind that frequencies exceeding the Nyquist,
+$l\Delta\omega>\pi/\Delta t$, wrap around to negative
+frequencies.
+
+
+\end{document}
