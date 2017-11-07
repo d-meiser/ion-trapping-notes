@@ -189,7 +189,9 @@ with $T$ the total integration time of the simulation. Inserting
 our mode expansion the power spectral density becomes
 \begin{equation}
   I(\omega) =
-  \sum_{m=1}^N\frac{a^2 \left| \alpha_m \right|^2}{T^2}\int_0^T\int_0^T\left( e^{-i(\omega-\omega_m)(t-t^\prime)} + e^{i(\omega+\omega_m)(t-t^\prime} \right)\,dt\,dt^\prime\;.
+  \sum_{m=1}^N\frac{a^2 \left| \alpha_m \right|^2}{T^2}
+  \int_0^T\int_0^T\left( e^{-i(\omega-\omega_m)(t-t^\prime)} +
+    e^{i(\omega+\omega_m)(t-t^\prime} \right)\,dt\,dt^\prime\;.
 \end{equation}
 We now consider a single resonance $\omega_m$ and assume that
 its resonance is well resolved. In that case we can integrate the
@@ -202,7 +204,8 @@ where we have assume that $\Delta\gg T^{-1}$. Solving for
 $|\alpha_m|^2$ and inserting in the expression for the mode
 energy we find
 \begin{equation}
-  E_m=m\omega_m^2\frac{T}{\pi}\int_{\omega_m-\Delta}^{\omega_m+\Delta}I(\omega)\,d\omega\;.
+  E_m = m\omega_m^2\frac{T}{\pi}
+        \int_{\omega_m-\Delta}^{\omega_m+\Delta}I(\omega)\,d\omega\;.
 \end{equation} 
 
 
