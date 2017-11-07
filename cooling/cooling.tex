@@ -51,7 +51,7 @@ Ultra-cold ions in Penning traps enable studies at the forefront
 of atomic physics\todo{references}, quantum
 science\todo{references}, and condensed matter
 physics\todo{references}. Many of these studies benefit from
-lower temperatures. Colder temperatures increase the crystal
+colder temperatures. Colder temperatures increase the crystal
 stability, decrease dephasing rates, and they can increase
 interrogation times. Improved crystal stability has the potential
 to enable optical access to individual lattice sites which could
@@ -61,30 +61,34 @@ experiments\todo{references}.
 
 The primary means of cooling ions in Penning traps are various
 forms of laser cooling including Doppler cooling and side band
-cooling. While the basic principles of laser cooling for
-ultra-cold ions is the same as for neutral atoms in
-magneto-optical traps there are also significant differences that
-can make it challenging to understand the experimentally achieved
-ion temperature, cooling limits, cooling and heating mechanisms,
-and that can make it more challenging to optimize the cooling
-laser parameters such as intensity and detuning as well as the
-cooling laser geometry.
+cooling. The basic principles of laser cooling for ultra-cold
+ions is the same as for neutral atoms in magneto-optical traps.
+But there are also significant differences that can make it
+challenging to understand the experimentally realized ion
+temperature, cooling limits, cooling and heating mechanisms, and
+that can make it more challenging to optimize the cooling laser
+parameters such as intensity and detuning as well as the cooling
+laser geometry.
 
 A major difference compared to neutral atom experiments is that
 ions in Penning traps move in a magnetic field several Tesla
-strong. The Lorentz force in the magnetic field forces the ions
-into circular orbits with a cyclotron frequency on the order of a
-few hundred kilo Hertz. The rotation of the ions in the magnetic
-field means that the ions velocity periodically changes direction
-relative to any cooling laser beams that are stationary in the
-laboratory frame of reference. A second major difference is the
-strong interaction between the ions due to the Coulomb force. The
-Coulomb force couples the ions into collective modes of motion.
-In contrast to the cooling dynamics of neutral atoms---which is
-largely a single particle phenomenon---it is necessary to take
-the collective nature of the ion motion into account to fully
-understand the cooling dynamics of ultra-cold ions in Penning
-traps.
+strong. In steady state, the ions move along circular
+trajectories in this magnetic field with a frequency of a few
+hundred kilo Hertz for the experiments of interest to us. The
+rotation of the ions in the magnetic field means that the
+velocity of the ions periodically changes direction relative to
+any cooling laser beams that are stationary in the laboratory
+frame of reference. The typical velocity of the ions gives rise
+to Doppler shifts that are large in comparison with the natural
+line width of the ions.
+
+A second major difference is the strong interaction between the
+ions due to the Coulomb force. The Coulomb force couples the ions
+into collective modes of motion. In contrast to the cooling
+dynamics of neutral atoms---which is largely a single particle
+phenomenon---it is necessary to take the collective nature of the
+ion motion into account to fully understand the cooling dynamics
+of ultra-cold ions in Penning traps \todo{Is that true?}.
 
 To help us better understand the dynamics of ultra-cold ions in
 Penning traps we have developed computer simulations that allow
@@ -99,20 +103,21 @@ of these modes and determine optimal laser cooling parameters.
 
 {\bf Who has studied cooling dynamics before? How did they do
 it?} Need a significant review of the existing literature here.
-Some key workds: Dan Dubin, Dave Wineland and JJ Bollinger,
-Molecular Dynamics simulations, analytical studies, fluid models,
-tracking codes, particle methods, PIC, Direct Simulation Mode
-Carlo (DSMC).
+Some key workds: Dan Dubin, Dave Wineland and JJ Bollinger, Wayne
+Itano, Molecular Dynamics simulations, analytical studies, fluid
+models, tracking codes, particle methods, PIC, Direct Simulation
+Mode Carlo (DSMC).
 
 The rest of this article is organized as follows. We begin by
 discussing the mathematical model and computational approach
 underlying our analysis in section~\ref{sec:model}. We then
-verify our simulations by comparison with zero temperature models
-in section~\ref{sec:verification}. Specifically, we compare
-steady state solutions and  spectra for the out-of-plane modes of the
-ion crystal. We validate the simulations by comparison with
-experimental results for the single-plane to multi-plane
-instability in section~\ref{sec:validation}. In
+verify and validate our simulations by comparison with zero
+temperature models, with theoretical results, and experimental
+data in section~\ref{sec:VerificationAndValidation}.
+Specifically, we compare steady state solutions and spectra for
+the out-of-plane modes of the ion crystal. We validate the
+simulations by comparison with experimental results for the
+single-plane to multi-plane instability. In
 section~\ref{sec:inplanemodes} we consider the in-plane modes and
 in section~\ref{sec:optimization} we present a numerical
 optimization of the laser cooling parameters and we discuss the
@@ -124,7 +129,8 @@ with section~\ref{sec:conclusion}
 \label{sec:model}
 
 In this section we describe our mathematical model as well as the
-computational techniques used in our numerical simulations.
+computational techniques on which in our numerical simulations
+are based.
 
 
 \subsection{Mathematical model}
@@ -135,27 +141,28 @@ of the ions is governed by the Hamiltonian
 \begin{equation}
   H = \hzero + \sum_{i=1}^N q_i\varphi(\mathbf{x}_i)\;,
 \end{equation}
-where the free Hamiltonian
+where the free Hamiltonian,
 \begin{equation}
   \hzero =
   \sum_{i=1}^N \frac{1}{2m_i}\left(
     \mathbf{p}_i -
-    q_i\mathbf{A}(\mathbf{x}_i) \right)^2 
+    q_i\mathbf{A}(\mathbf{x}_i) \right)^2 \;,
   \label{eqn:total_hamiltonian}
 \end{equation}
-includes the vector potential $\mathbf{A}$ for the axial magnetic
-field in the Penning trap. We choose our coordinate system such
-that the Penning trap magnetic field $\mathbf{B} =
-\mathbf{\nabla}\times \mathbf{A}$ is parallel to the $z$ axis.
-With that choice of coordinate system we have $\mathbf{A} =
-yB_z\mathbf{\hat x}$ with $\mathbf{\hat x}=\mathbf{x}/x$ the unit
-vector along $\mathbf{x}$. In Eqn.~\eqref{eqn:total_hamiltonian},
-$N$ is the number of ions in the trap, $m_i$ is the mass of ion
-$i$, $q_i$ its charge, and the electrostatic potential
+includes the vector potential $\mathbf{A}$ for the homogeneous
+axial magnetic field $\mathbf{B}=(0, 0, B_z)^T$in the Penning
+trap. We choose our coordinate system such that the Penning trap
+magnetic field $\mathbf{B} = \mathbf{\nabla}\times \mathbf{A}$ is
+parallel to the $z$ axis. With that choice of coordinate system
+we have $\mathbf{A} = yB_z\mathbf{\hat x}$ with $\mathbf{\hat
+  x}=\mathbf{x}/x$ the unit vector along $\mathbf{x}$. In
+Eqn.~\eqref{eqn:total_hamiltonian}, $N$ is the number of ions in
+the trap, $m_i$ is the mass of ion $i$, and $q_i$ its charge. The
+electrostatic potential
 \begin{equation}
-  \varphi(\mathbf{x}_i) =
+  \varphi(\mathbf{x}_i, t) =
   \phicap(\mathbf{x}_i) +
-  \phiwall(\mathbf{x}_i) +
+  \phiwall(\mathbf{x}_i, t) +
   \sum_{\substack{j=1\\j\neq i}}^N
   \frac{1}{4\pi\varepsilon_0}\
   \frac{q_j}{\left| \mathbf{x_i} - \mathbf{x_j} \right|}
@@ -167,7 +174,7 @@ vicinity of the ion crystal the end-cap and rotating wall
 potentials are well approximated by harmonic potentials. We
 parametrize them as
 \begin{equation}
-  \phicap(\mathbf{x}) +\phiwall(\mathbf{x}) =\frac{1}{2}k_z z^2 - 
+  \phicap(\mathbf{x}) +\phiwall(\mathbf{x}, t) =\frac{1}{2}k_z z^2 - 
 \frac{1}{2} \left(k_x x_r^2 + k_y y_r^2\right)
 \end{equation}
 where
@@ -177,7 +184,8 @@ k_y=\left(\frac{1}{2}-\delta\right)k_z\;,
 \end{equation}
 The dimensionless parameter $\delta$ characterizes the strength
 of the rotating wall potential. The coordinates of the ions in
-the rotating frame $[x_r, y_r]^T$ are given by
+the rotating frame, $[x_r, y_r]^T$, are related to the laboratory
+frame coordinates by means of
 \begin{equation}
 \left[
 \begin{array}{c}
@@ -203,23 +211,23 @@ In addition to the conservative dynamics described by the
 Hamiltonian the ions are subject to radiation pressure forces due
 the cooling lasers. We describe the radiation pressure force
 using a stochastic model. We discuss this model in more detail
-when we consider the computational integration of the ion motion
-in the next section.
+when we consider the computational integration of the equations
+of motion of the ions in the next section.
 
 
 \subsection{Numerical algorithm for time propagation}
 
 To numerically integrate the motion of the ions we employ a split
 step algorithm as is customary in e.g. molecular dynamics
-simulations. To advance the positions and velocities of the ions
-$\{\mathbf{x}_i, \mathbf{v}_i\}$
+simulations. To advance the positions and velocities of the ions,
+$\{\mathbf{x}_i, \mathbf{v}_i\}$,
 from time $t$ to $t + \Delta t$ we use the update formula
 \begin{equation}
-  \{\mathbf{x}_i, \mathbf{v}_i\}(t+\Delta t) =
+  \{\mathbf{x}_i(t+\Delta t), \mathbf{v}_i(t+\Delta t)\} =
   U_{0}(\Delta t /2)
   U_{\rm kick}(t + \Delta t / 2; \Delta t)
   U_{0}(\Delta t /2)
-  \{\mathbf{x}_i, \mathbf{v}_i\}(t)\;.
+  \{\mathbf{x}_i(t), \mathbf{v}_i(t)\}\;.
 \end{equation}
 In this formula, $U_{0}(\Delta t/2)$ is the time evolution
 operator corresponding to $\hzero$ that advances the state of
@@ -227,7 +235,7 @@ the ions for a time interval of duration $\Delta t / 2$. Since
 the free Hamiltonian contains just the kinetic energy of the ions
 and the Lorentz force due to the axial magnetic field the motion
 generated by $U_{0}$ is the well known circular Larmor
-procession,
+precession,
 \begin{eqnarray}
   \mathbf{x}_i(t + \Delta t / 2) &=&
                                    \mathbf{x}_i(t)+\\
@@ -251,7 +259,7 @@ and
 \begin{equation}
   c = \cos(\omega_B \Delta t / 2)
 \end{equation}
-with $\omega_B=B_zq/m$ the Lamor precession frequency.
+with $\omega_B=B_zq/m$ the Larmor precession frequency.
 
 The time evolution operator $U_{\rm kick}(t + \Delta t/2; \Delta
 t)$ corresponds to the interaction with the forces due to the
@@ -261,31 +269,33 @@ rotating wall potential and the radiation pressure forces. We
 evaluate it at the mid-point of the time interval, $t + \Delta t
 / 2$. The operator $U_{\rm kick}$ changes the momenta of the
 particles only,
-\begin{eqnarray}
-  \{\mathbf{x}_i, \mathbf{p}_i\}(t + \Delta t)
-  &=& U_{\rm kick}(t + \Delta t /2; \Delta t)
-    \{\mathbf{x}_i, \mathbf{p}_i\}(t)\\
-  &=&\left\{
+\begin{equation}
+  U_{\rm kick}(t + \Delta t /2; \Delta t)
+    \{\mathbf{x}_i(t), \mathbf{p}_i(t)\} =
+  \left\{
       \mathbf{x}_i(t),
       \mathbf{p}_i(t) +
-      \Delta t q_i \mathbf{E}(t + \Delta t / 2, \mathbf{x}_i) +
+      \Delta t q_i \mathbf{E}(t + \Delta t / 2, \mathbf{x}_i(t + \Delta t / 2)) +
       \Delta \mathbf{p}_i^{\rm laser}
       \right\}\;.
-\end{eqnarray}
+\end{equation}
 The kick due to the electric field is given by $\Delta t
-q_i\mathbf{E}(t+\Delta t /2,\mathbf{x}_i) = -\Delta t
-q_i\mathbf{\nabla}\varphi(\mathbf{x}_i)$.
+q_i\mathbf{E}(t+\Delta t /2,\mathbf{x}_i(t + \Delta t / 2)) = -\Delta t
+q_i\mathbf{\nabla}\varphi(\mathbf{x}_i(t + \Delta t / 2))$.
 
 Our model of laser cooling is based on resonance fluorescence for
-a driven two-level atom. The photon scattering rate for a driven
-two-level atom is given by
+a driven two-level atom. For simplicity, we discuss our approach
+for a single cooling laser. For multiple cooling beams we simply
+compute the momentum kicks for each laser and then add them up.
+The photon scattering rate for a driven two-level atom is given
+by
 \begin{equation}
-\dot n (\mathbf{r}, \mathbf{v}) = 
-S(\mathbf{r})\frac{\gamma_0}{2\pi}
-\frac{(\gamma_0/2)^2}{(\gamma_0/2)^2(1+2S(\mathbf{r}))+\Delta^2(\mathbf{v})}\;,
+\dot n (\mathbf{x}, \mathbf{v}) = 
+S(\mathbf{x})\frac{\gamma_0}{2\pi}
+\frac{(\gamma_0/2)^2}{(\gamma_0/2)^2(1+2S(\mathbf{x}))+\Delta^2(\mathbf{v})}\;,
 \end{equation}
 where $\gamma_0$ is the natural linewidth of the cycling transition (in
-radians per second), $S(\mathbf{r})$ is the saturation parameter, and
+radians per second), $S(\mathbf{x})$ is the saturation parameter, and
 $\Delta(\mathbf{v})=\Delta_0 + \mathbf{k}\cdot\mathbf{v}$ is the
 detuning of the cooling transition from the laser frequency including
 the first order Doppler shift.  We assume that the atoms scatter photons
@@ -295,7 +305,7 @@ $S\sim 1$ we have to take into account anti-bunching).}.  We take into
 account the beam profile by multiplying the saturation parameter with a
 Gaussian factor that accounts for the spatial structure of the laser,
 \begin{equation}
-S(\mathbf{r})=e^{-\rho^2/\sigma^2}S_0\;,
+S(\mathbf{x})=e^{-\rho^2/\sigma^2}S_0\;,
 \end{equation}
 where $\rho$ is the distance of the atom from the center of the beam and
 $\sigma$ is the $1/e$ radius of the intensity of the beam.
@@ -304,20 +314,21 @@ To numerically simulate laser cooling we proceed as follows.
 First we compute the mean number of photons scattered by ion $i$
 in time interval $\Delta t$,
 \begin{equation}
-n_i=\dot{n}_i \Delta t\;.
+\bar{n}_i=\dot{n}_i \Delta t\;.
 \end{equation}
 The velocities and positions needed for computing $\dot{n}_j$ are taken
 at the center of the time step in accordance with the integration scheme
 discussed above.  We then compute the actual number of photons scattered
-by each ion as a Poissonian random number with mean $n_i$.  Each
+by each ion, $n_i$,  as a Poissonian random number with mean $\bar{n}_i$.  Each
 ion receives a total momentum kick of 
 \begin{equation}
-\mathbf{\Delta p}_i = \mathbf{\Delta p_{i,{\rm absorb}}} + 
-\mathbf{\Delta p_{i,{\rm emit}}}\;,
+\mathbf{\Delta p}_i = \mathbf{\Delta p}_{i,{\rm absorb}} + 
+\mathbf{\Delta p}_{i,{\rm emit}}\;,
 \end{equation}
 where $\mathbf{\Delta p_{i,{\rm absorb}}}=n_i \hbar \mathbf{k}$ and
 $\mathbf{\Delta p_{i,{\rm emit}}}$ is the recoil corresponging to $n_i$
-photons scattered in random directions. To compute $\mathbf{\Delta
+photons scattered in random directions with an isotropic
+probability distribution. To compute $\mathbf{\Delta
 p_{i,{\rm emit}}}$ we generate $n_i$ vectors of length $\hbar k$
 pointing in random directions.  The recoil momentum $\mathbf{\Delta
 p}_{i,{\rm emit}}$ is then obtained by adding up these vectors.
@@ -331,10 +342,8 @@ In essence, there is an anti-correlation between photon emission
 events due to the fact that immediately after a photon emission
 an atom is in the ground state with certainty and therefore
 cannot emitt another photon right away. The other approximation
-model is that we assume that the photon emission is nearly
-instantaneous relative to the dynamics of the ions, i.e. the
-motion is uniform during an excited state lifetime, i.e. we
-assume that 
+in our model is that we assume that the ion motion is uniform
+during an excited state lifetime, i.e. we assume that
 \begin{equation}
 \eta\equiv\gamma_0/\omega_B\ll 1\;.
 \end{equation}
@@ -352,7 +361,7 @@ with the expected quadratic rate as the time step size is
 reduced. We compare the temperature of laser cooled ions with the
 well known text book result for Doppler cooling. We check that
 the steady state obtained with a separate static zero temperature
-code is a steady state of our simulations. Finally we compare
+code is a steady state of our simulations. Finally, we compare
 simulation results for a single-plane to multi-plane instability
 with theoretical and experimental results.
 
@@ -402,20 +411,21 @@ $\Delta x(\SI{1}{\nano\second})\approx \SI{1}{\nano\meter}$. For
 reference, during this time interval the ions move on the order
 of $\SI{1}{\milli\meter}$, i.e. the ion motion is integrated with
 a relative error on the order of $\SI{1.0e-6}{}$. For time step
-sizes greater than $\Delta t\approx 1.0e-7$ the integrator can be in
-resonance with some of the vibrational eigen modes of the system.
-Whenever the integrator is in resonance errors can grow
-indefinitely. While damping forces such as laser cooling can
+sizes greater than $\Delta t\approx \SI{1.0e-7}{\second}$ the
+integrator hits resonances where the period of the integrator
+matches the period of one of the vibrational eigen modes of the system.
+When these resonances occur the time integration errors can grow
+very large. While damping forces such as laser cooling can
 broaden the resonances and limit the growth of errors it is best
 to stick to time step sizes that are smaller than $\Delta t =
 \SI{1.0e-7}{\second}$. Results quoted in this paper were obtained
 with $\Delta t = \SI{1}{\nano\second}$ unless noted otherwise.
 \begin{figure}
   \includegraphics{./figures/fig_convergence.pdf}
-  \caption{Integration errors as a function of time step size for
-    a total time integration time of $T=\SI{10}{\us}$ for a
-    typical Penning trap simulation. The dashed orange line is a
-    quadratic for orientation. See text for details.}
+  \caption{Time integration errors as a function of time step
+    size for a total time integration time of $T=\SI{10}{\us}$
+    for a typical Penning trap simulation. The dashed orange line
+    is a quadratic for orientation. See text for details.}
   \label{fig:convergence}
 \end{figure}
 
@@ -467,9 +477,7 @@ this instability occurs is well understood
 theoretically\todo{references} and has been carefully
 characterized experimentally\todo{references}. We simulate the
 transition here to gain further confidence in the correctness and
-accuracy of our simulations. The study of the single plane
-instability is also a nice illustration of the generality of our
-approach.
+accuracy of our simulations. 
 
 To simulate the single-plane instability we start with the single
 plane equilibrium configuration shown in
@@ -477,7 +485,7 @@ Fig.~\ref{fig:initial_state_top_view}. We then sweep the rotation
 frequency of the rotating wall potential from
 $\omega(t=0)=2\pi\times\SI{185}{\kilo\hertz}$ to
 $\omega(t=\SI{1}{\milli\second})=2\pi\times\SI{205}{\kilo\hertz}$ with
-a sweep rate of $d\omega/dt =
+a constant sweep rate of $d\omega/dt =
 \SI{20}{\kilo\hertz/\milli\second}$. After holding the rotation
 frequency there for $\SI{1}{\milli\second}$ we sweep back to the
 original frequency with
@@ -489,8 +497,8 @@ During this sweep sequence we apply an artificial damping to the
 ion motion in order to keep the ions close to a minimal energy
 configuration. The damping is given by
 \begin{eqnarray}
-  \frac{v_z}{dt}&=&-\kappa_z v_z\;,\\
-  \frac{v_\vartheta}{dt}&=&-\kappa_\vartheta\left( v_\vartheta -
+  \frac{dv_z}{dt}&=&-\kappa_z v_z\;,\\
+  \frac{dv_\vartheta}{dt}&=&-\kappa_\vartheta\left( v_\vartheta -
                             \omega\left| \mathbf{r} \right| \right)\;.
 \end{eqnarray}
 For the simulations discussed here we use
@@ -532,8 +540,9 @@ Figure~\ref{fig:side_views_single_plane_instability} shows a side
 view of the ion crystal during the down sweep of the rotation
 frequency. These figures illustrate the arrangement of the ions
 in three planes. It shows how more and more ions ``fit'' into the
-$z=0$ crystal plane. Just above the transition frequency only a
-small zone around $x=y=0$ is unstable.
+$z=0$ crystal plane as the rotation frequency is reduced. Just
+above the transition frequency only a small zone around $x=y=0$
+is unstable.
 \begin{figure}
   \includegraphics{./figures/fig_side_views_single_plane_instability.pdf}
   \caption{Side views of ion crystal as the rotation frequency is
@@ -568,15 +577,16 @@ distribution. The perpendicular cooling beam is offset from the
 crystal center along the $y$ axis by $d=\SI{30}{\micro\meter}$.
 We assume that this beam has a Gaussian intensity profile with a
 $1/e$ width of $\sigma=\SI{30}{\micro\meter}$ and a detuning of
-$\Delta_\perp=-\gamma/2 +\omega_rdk$. Steve et al \todo{cite
+$\Delta_\perp=-\gamma/2 +dk\omega_r$. Steve et al \todo{cite
   Steve's paper here} have found that this configuration should
-lead to a low crystal temperature only a small multiple of the
-free space Doppler temperature. We assume a peak intensity of
-$S=0.1$ for all three laser beams. We assume that the lasers are
-sufficiently broad band so that we don't have to consider
-interference or polarization gradient effects~\todo{Is that
-  reasonable? Is broad band the reason we don't have to worry
-  about interference? Are we doing lin-perp-lin for axial beams?}
+lead to a low crystal temperature corresponding to a small
+multiple of the free space Doppler temperature. We assume a peak
+intensity of $S=0.1$ for all three laser beams. We assume that
+the lasers are sufficiently broad band so that we don't have to
+consider interference or polarization gradient effects~\todo{Is
+  that reasonable? Is broad band the reason we don't have to
+  worry about interference? Are we doing lin-perp-lin for axial
+  beams?}
 
 After the laser cooling period we turn off the cooling lasers and
 let the ions evolve unperturbed for another
@@ -584,10 +594,10 @@ $\SI{5}{\milli\second}$. During this time we record the positions
 of the ions with a sampling rate of $\SI{0.25}{\micro\second}$
 corresponding to a Nyquist frequency of $\nu_{\rm
   Nyquist}=\SI{2}{\mega\hertz}$. The total integration time of
-$\SI{5}{\milli\second}$ gives frequency resolution of
+$\SI{5}{\milli\second}$ gives us a frequency resolution of
 $\Delta\nu=\SI{200}{\hertz}$. The power spectral density ${\rm
   PSD}(\nu_m)$ at a discrete sampling frequency $\nu_m =
-m\Delta\nu$of the motion along $z$ is computed by
+m\Delta\nu$ of the motion along $z$ is computed by
 \begin{equation}
   {\rm PSD}(\nu_m)=
   \sum_{j=1}^N\left| \tilde{z}_j(\nu_m) \right|^2 +
@@ -613,14 +623,15 @@ several resonances are shifted significantly compared to the zero
 temperature theory. The most likely explanation is that our
 finite temperature initial state contains crystal defects. The
 crystal has switched from the ground state to some other low
-energy configuration. This configuration then has a different
-vibrational spectrum. \todo{Why are some modes affected by this
-  while others aren't? Does that have to do with mode
-  symmetries?}. Another possible explanation of the resonance
-shifts is that they are caused by non-linear shifts such as the
-Kerr effect \todo{Is that plausible? Only some modes shift due to
-symmetry again? Are the level shifts in the right ball park for
-this to be a possible explanation?}
+energy configuration during the initial equilibration period.
+This configuration then has a different vibrational spectrum.
+\todo{Why are some modes affected by this while others aren't?
+  Does that have to do with mode symmetries?}. Another possible
+explanation of the resonance shifts is that they are caused by
+non-linear shifts such as the Kerr effect \todo{Is that
+  plausible? Only some modes shift due to symmetry? Are the
+  level shifts in the right ball park for this to be a possible
+  explanation?}
 
 \begin{figure}
   \includegraphics{./figures/fig_axial_spectrum.pdf}
