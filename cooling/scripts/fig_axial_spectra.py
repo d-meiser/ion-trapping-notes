@@ -245,3 +245,29 @@ plt.ylim([1.0e-13, 1.0e-4])
 plt.gcf().set_size_inches([default_width, default_height])
 plt.subplots_adjust(left=0.2, right=0.97, top=0.95, bottom=0.2)
 plt.savefig('fig_axial_spectrum_detail.pdf')
+
+
+def compute_mode_energy(nus, nu_min, nu_max,
+                        psd,
+                        mass):
+    nu_center = 0.5 * (nu_min + nu_max)
+    delta_nu = (nu_max - nu_min)
+    cond = np.where(np.abs(nus - nu_center) < 0.5 * delta_nu)
+    nus_window = nus[cond]
+    psd_window = psd[cond]
+    a_max =np.argmax(nus_window)
+    print('a_max == ' + str(a_max))
+    omega = 2.0 * np.pi * nus_window[np.argmax(nus_window)]
+    print(omega)
+    integrated = 2.0 * np.pi * np.trapz(psd_window, nus_window)
+    print(integrated)
+
+    return (
+        mass *
+        omega**2 *
+        t_max / np.pi *
+        integrated
+    )
+
+
+T_Doppler = hbar * gamma / 2.0 / kb
