@@ -22,9 +22,9 @@
   Boulder, CO 80301, USA.}
 
 \begin{abstract}
-  These notes discuss how to extract the temperatures of the
-  drum-head modes of a crystal of ultra-cold ions in a Penning
-  trap.
+  In these notes we discuss how to extract the temperatures of
+  the drum-head modes of a crystal of ultra-cold ions in a
+  Penning trap from spectra of the axial motion.
 \end{abstract}
 
 \maketitle
@@ -35,7 +35,7 @@
 We consider an ensemble of $N$ ions in a Penning trap with the
 magnetic field aligned with the $z$ axis. We assume that the
 motion of the ions along the $z$ direction is decoupled from the
-other degrees of freedom and we consider the $z$ degrees of
+other degrees of freedom. We consider the $z$ degrees of
 freedom only.
 
 The Hamiltonian is given by
@@ -104,17 +104,18 @@ we can write the linearized Hamiltonian as
 \begin{equation}
   H =
   \frac{1}{2}\left\langle p, M^{-1}p \right\rangle +
-  \frac{1}{2}\left\langle z, V z \right \rangle\;.
+  \frac{1}{2}\left\langle z, V z \right \rangle\;,
   \label{eqn:linearized_hamiltonian}
 \end{equation}
+with $\langle \cdot, \cdot\rangle$ the inner product.
 
 The equations of motion are
 \begin{eqnarray}
-  \dot{z} = \frac{\partial H}{\partial p} = M^{-1}p\label{eqn:zdot}\\
-  \dot{p} = -\frac{\partial H}{\partial z} = -Vz\label{eqn:pdot}\;.
+  \dot{z} &=& \frac{\partial H}{\partial p} = M^{-1}p\label{eqn:zdot}\\
+  \dot{p} &=& -\frac{\partial H}{\partial z} = -Vz\label{eqn:pdot}\;.
 \end{eqnarray}
 Taking another time derivative of Eqn.~\eqref{eqn:zdot} and
-substituting Eqn.~\eqref{eqn:pdot} we find
+eliminating $\dot{p}$ using Eqn.~\eqref{eqn:pdot} we find
 \begin{equation}
   M\ddot{z}=-Vz\;.
 \end{equation}
@@ -131,7 +132,7 @@ set of eigenvectors $\phi_1, \phi_2,\ldots$ with eignvalues
 $\omega_1, \omega_2, \ldots$. We assume that the eigenmodes are
 normalized according to
 \begin{equation}
-  \left\langle \phi_m,\phi_n\right \rangle = a^2\delta_{m,n}
+  \left\langle \phi_m,\phi_n\right \rangle = a^2\delta_{m,n}\;,
 \end{equation}
 where $a$ is the unit of length and $\delta_{m,n}$ is Kronecker's
 delta symbol.
@@ -147,7 +148,8 @@ eigenmodes,
 into the Hamiltonian Eqn.~\eqref{eqn:linearized_hamiltonian}. A
 simple calculation yields
 \begin{equation}
-  H=\sum_{m,n=1}^Na^2\left| \alpha_m\right|^2\omega_m^2\left\langle \phi_m,M\phi_n \right\rangle\;.
+  H=\sum_{m,n=1}^Na^2\left| \alpha_m\right|^2
+    \omega_m^2\left\langle \phi_m,M\phi_n \right\rangle\;.
 \end{equation}
 This can be further simplified in the case where all ions
 have the same mass, $m=m_1=m_2=\ldots$. We now specialize our
@@ -155,17 +157,18 @@ discussion to that case. We obtain
 \begin{equation}
   H=ma^2\sum_{m=1}^N\omega_m^2\left| \alpha_m \right|^2\;.
 \end{equation}
-Each mode contains an energy of
+Each mode contributes
 \begin{equation}
-  E_m=ma^2\omega_m^2\left| \alpha_m \right|^2\;.
+  E_m=ma^2\omega_m^2\left| \alpha_m \right|^2\;,
 \end{equation}
-Note that if we were to choose the harmonic oscillator length,
-$a_{\rm osc}=\sqrt{\hbar/(m\omega_m)}$ as the unit of length this
-reduces to the well know formula
+to the total energy. Note that if we were to choose the harmonic
+oscillator length, $a_{\rm osc}=\sqrt{\hbar/(m\omega_m)}$ as the
+unit of length this reduces to the well known formula
 \begin{equation}
   E_m=\hbar\omega_m\left| \alpha_m \right|^2\;.
 \end{equation}
-But the choice of unit of length is immaterial for our discussion here.
+But the choice of unit of length is immaterial for our discussion
+here.
 
 
 \section{Determination of mode energies from spectra}
@@ -211,27 +214,29 @@ energy we find
 
 \section{Note on discrete signals and discrete Fourier transform}
 
-In the simulations we sample the ion motion with a constant
-sampling rate. The Fourier transform becomes a discrete Fourier
-transform which we evaluate with the aid of a Fast Fourier
-Transform. We can consider the discrete Fourier transform as a
-Riemann sum approximation to the Fourier transform,
+In the simulations we sample the ion motion with a discrete,
+constant sampling rate $\Delta t$. In terms of this discretely
+sampled signal, the Fourier transform can be approximate by a
+discrete Fourier transform (which we evaluate with the aid of a
+Fast Fourier Transform). We can consider the discrete Fourier
+transform as a Riemann sum approximation to the Fourier
+transform,
 \begin{equation}
   \tilde{z}(\omega)=
   T^{-1}\int_0^Te^{-i\omega t}z(t)\,dt \approx
-  \sum_n^{N_s}\frac{\Delta t}{T}e^{-i\omega n\Delta t}z(n \Delta t) =
+  T^{-1}\sum_n^{N_s}\Delta t e^{-i\omega n\Delta t}z(n \Delta t) =
   \frac{1}{N_s}\sum_n^{N_s}e^{-i\omega n\Delta t}z(n \Delta t)\;.
 \end{equation}
-In this equation, $N_s$ is the total number of samples and
-$\Delta t$ is the sample period. Introducing the frequency grid
-spacing $\Delta\omega=2\pi/T$ we can write the approximate
-Fourier transform as
+In this equation, $N_s = T / \Delta t$ is the total number of
+samples. Introducing the frequency grid spacing
+$\Delta\omega=2\pi/T$ we can write the approximate Fourier
+transform as
 \begin{equation}
   \tilde{z}(l\Delta\omega)\approx
   \frac{1}{N_s}\sum_n^{N_s}e^{-i2\pi ln/N_s}z(n \Delta t)\;.
 \end{equation}
-We have to keep in mind that frequencies exceeding the Nyquist,
-$l\Delta\omega>\pi/\Delta t$, wrap around to negative
+We have to keep in mind that frequencies exceeding the Nyquist
+frequency, $l\Delta\omega>\pi/\Delta t$, wrap around to negative
 frequencies.
 
 
