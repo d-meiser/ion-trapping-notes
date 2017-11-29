@@ -188,7 +188,7 @@ dt = 1.0e-9
 sampling_period = 2.5e-7
 # Integrating for a total of sampling_period * num_samples = 5.0e-3 s gives a
 # frequency resolution of 200Hz.
-num_samples = 20000
+num_samples = 400000
 finite_temperature_ensemble = my_ensemble.copy()
 trap_potential.reset_phase()
 trajectories = [finite_temperature_ensemble.x.copy()]
@@ -201,8 +201,12 @@ trajectories = np.array(trajectories)
 
 nu_nyquist = 0.5 / sampling_period
 nu_axis = np.linspace(0.0, nu_nyquist, trajectories.shape[0] // 2)
-psd =  np.sum(np.abs(np.fft.fft(trajectories[:,:,2],axis=0))**2, axis=1)
+psd =  np.sum(np.abs(np.fft.fft(trajectories[:,:,2],axis=0) / trajectories.shape[0])**2, axis=1)
 psd = psd[0 : psd.size//2 : 1] + psd[2*(psd.size//2) : psd.size//2 : -1]
+np.save('nu_axis.npy', nu_axis)
+np.save('psd.npy', psd)
+nu_axis = np.load('nu_axis.npy')
+psd = np.load('psd.npy')
 
 
 # Make a plot of the whole spectrum.
@@ -210,17 +214,17 @@ fig = plt.figure()
 spl = fig.add_subplot(111)
 for e in mode_analysis.axialEvalsE:
     plt.semilogy(np.array([e, e]) / (2.0 * np.pi * 1.0e6),
-                 np.array([1.0e-13, 1.0e-5]),
+                 np.array([1.0e-18, 1.0e-13]),
                  color='gray', linewidth=0.5,
                  zorder=-3)
-spl.fill_between(nu_axis / 1.0e6, 1.0e-20, psd, zorder=-2)
+spl.fill_between(nu_axis / 1.0e6, 1.0e-21, psd, zorder=-2)
 spl.set_yscale("log")
 plt.semilogy(nu_axis / 1.0e6, psd,
              linewidth=0.75, color='blue', zorder=-1)
 plt.xlabel(r'$\nu / \rm{MHz}$')
 plt.ylabel(r'PSD($z$)')
 plt.xlim([1.0, 1.65])
-plt.ylim([1.0e-13, 1.0e-4])
+plt.ylim([1.0e-21, 1.0e-13])
 plt.gcf().set_size_inches([default_width, default_height])
 plt.subplots_adjust(left=0.2, right=0.97, top=0.95, bottom=0.2)
 plt.savefig('fig_axial_spectrum.pdf')
@@ -241,13 +245,47 @@ plt.semilogy(nu_axis / 1.0e6, psd,
 plt.xlabel(r'$\nu / \rm{MHz}$')
 plt.ylabel(r'PSD($z$)')
 plt.xlim([1.4, 1.5])
-plt.ylim([1.0e-13, 1.0e-4])
+plt.ylim([1.0e-21, 1.0e-13])
 plt.gcf().set_size_inches([default_width, default_height])
 plt.subplots_adjust(left=0.2, right=0.97, top=0.95, bottom=0.2)
 plt.savefig('fig_axial_spectrum_detail.pdf')
 
+fig = plt.figure()
+nu_min = 1.50e6
+nu_max = 1.585e6
+delta_nu = nu_max - nu_min
+nu_center = 0.5 * (nu_min + nu_max)
+freq_window = np.where(np.abs(nu_axis - nu_center) < 0.5 * delta_nu)
+spl = fig.add_subplot(111)
+for e in mode_analysis.axialEvalsE:
+    plt.semilogy(np.array([e, e]) / (2.0 * np.pi * 1.0e6),
+                 np.array([1.0e-21, 1.0e-5]),
+                 color='gray', linewidth=0.5,
+                 zorder=-3)
+spl.fill_between(nu_axis[freq_window] / 1.0e6, 1.0e-21, psd[freq_window], zorder=-2)
+spl.set_yscale("log")
+plt.semilogy(nu_axis[freq_window] / 1.0e6, psd[freq_window],
+             linewidth=0.75, color='blue', zorder=-1)
+plt.xlabel(r'$\nu / \rm{MHz}$')
+plt.ylabel(r'PSD($z$)')
+plt.xlim([nu_min/1.0e6, nu_max/1.0e6])
+plt.ylim([1.0e-21, 1.0e-13])
+plt.gcf().set_size_inches([default_width, default_height])
+plt.subplots_adjust(left=0.2, right=0.97, top=0.95, bottom=0.21)
+plt.savefig('fig_high_modes.pdf')
 
-def compute_mode_energy(nus, nu_min, nu_max,
+
+# plt.clf()
+# plt.plot(trajectories[:, 0, 2]/ 1.0e-6)
+# plt.subplots_adjust(left=0.2, right=0.97, top=0.92, bottom=0.2)
+# plt.savefig('traj.pdf')
+#
+# plt.clf()
+# plt.semilogy(np.sum(np.abs(np.fft.fft(trajectories[:, :, 2], axis=0) / trajectories.shape[0])**2, axis = 1))
+# plt.subplots_adjust(left=0.2, right=0.97, top=0.90, bottom=0.2)
+# plt.savefig('spectr.pdf')
+
+def compute_mode_energy(nus, nu_min, nu_max, t_max,
                         psd,
                         mass):
     nu_center = 0.5 * (nu_min + nu_max)
@@ -255,13 +293,9 @@ def compute_mode_energy(nus, nu_min, nu_max,
     cond = np.where(np.abs(nus - nu_center) < 0.5 * delta_nu)
     nus_window = nus[cond]
     psd_window = psd[cond]
-    a_max =np.argmax(nus_window)
-    print('a_max == ' + str(a_max))
-    omega = 2.0 * np.pi * nus_window[np.argmax(nus_window)]
-    print(omega)
+    a_max = np.argmax(psd_window)
+    omega = 2.0 * np.pi * nus_window[a_max]
     integrated = 2.0 * np.pi * np.trapz(psd_window, nus_window)
-    print(integrated)
-
     return (
         mass *
         omega**2 *
@@ -269,5 +303,30 @@ def compute_mode_energy(nus, nu_min, nu_max,
         integrated
     )
 
+mode_energy = compute_mode_energy(nu_axis, 1.57e6, 1.6e6, num_samples * sampling_period,
+                                  psd, mode_analysis.m_Be)
 
+# Frequency windows of 100Hz
+delta_nu = 5.0e2
+num_resonances = 10
+line_centers = mode_analysis.axialEvalsE[-1:-num_resonances:-1] / 2.0 / np.pi
+for i, res in enumerate(line_centers):
+    energy = compute_mode_energy(
+        nu_axis, res - 0.5 * delta_nu, res + 0.5 * delta_nu,
+        num_samples * sampling_period,
+        psd, mode_analysis.m_Be)
+    print('%d  %e  %e  %e' % (i, res, energy / (hbar * 2.0 * np.pi * res), energy / (hbar * gamma / 2.0)))
+
+
+kb = 1.38e-23
 T_Doppler = hbar * gamma / 2.0 / kb
+
+def find_local_minima(arr):
+    indices = []
+    for i in range(1, arr.shape[0] -1):
+        if (arr[i - 1] > arr[i]) and (arr[i + 1] > arr[i]):
+            indices.append(i)
+    return indices
+
+def find_local_maxima(arr):
+    return find_local_minima(-arr)
