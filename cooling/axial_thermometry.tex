@@ -43,7 +43,7 @@ The Hamiltonian is given by
   H=
     \sum_{j=1}^N\frac{p_j^2}{2m_j} +
     \sum_{j=1}^NV_1(z_j) +
-    \sum_{\substack{i,j = 1\\i\neq j}}^{N}V_2(z_i - z_j)\;.
+    \sum_{\substack{i=1\\j = i + 1}}^{N}V_2(z_i - z_j)\;.
 \end{equation}
 In this equation, $p_j$ is the $z$-component of the momentum of
 ion $j$. The single particle potential $V_1$ represents the
@@ -56,7 +56,7 @@ steady state at $z_j=0$, we obtain
   H\approx 
     \sum_{j=1}^N \frac{p_j^2}{2m_j} +
     \frac{1}{2}\sum_{j=1}^N m_j \omega_z^2 z_j^2+
-    \frac{1}{2}\sum_{\substack{i,j = 1\\i\neq j}}^{N} V_{ij}(z_i-z_j)^2\;.
+    \frac{1}{2}\sum_{\substack{i = 1\\j = i + 1}}^{N} V_{ij}(z_i-z_j)^2\;.
 \end{equation}
 
 Introducing the vectors
@@ -148,7 +148,7 @@ eigenmodes,
 into the Hamiltonian Eqn.~\eqref{eqn:linearized_hamiltonian}. A
 simple calculation yields
 \begin{equation}
-  H=\sum_{m,n=1}^Na^2\left| \alpha_m\right|^2
+  H=\sum_{m,n=1}^N\left| \alpha_m\right|^2
     \omega_m^2\left\langle \phi_m,M\phi_n \right\rangle\;.
 \end{equation}
 This can be further simplified in the case where all ions
@@ -160,6 +160,7 @@ discussion to that case. We obtain
 Each mode contributes
 \begin{equation}
   E_m=ma^2\omega_m^2\left| \alpha_m \right|^2\;,
+  \label{eqn:ModeEnergy}
 \end{equation}
 to the total energy. Note that if we were to choose the harmonic
 oscillator length, $a_{\rm osc}=\sqrt{\hbar/(m\omega_m)}$ as the
@@ -167,7 +168,7 @@ unit of length this reduces to the well known formula
 \begin{equation}
   E_m=\hbar\omega_m\left| \alpha_m \right|^2\;.
 \end{equation}
-But the choice of unit of length is immaterial for our discussion
+But the choice of unit of length is not essential to our discussion
 here.
 
 
@@ -189,7 +190,7 @@ trajectory of ion $j$,
   \tilde{z}_j(\omega) = \frac{1}{T}\int_0^T e^{-i\omega t}z_j(t)\, dt,
 \end{equation}
 with $T$ the total integration time of the simulation. Inserting
-our mode expansion the power spectral density becomes
+our mode expansion, the power spectral density becomes
 \begin{equation}
   I(\omega) =
   \sum_{m=1}^N\frac{a^2 \left| \alpha_m \right|^2}{T^2}
@@ -203,12 +204,13 @@ power spectral density over the resonance. We find
   \int_{\omega_m-\Delta}^{\omega_m+\Delta} I(\omega)\,d\omega =
   \frac{\pi a^2}{T}\left| \alpha_m \right|^2\;,
 \end{equation}
-where we have assume that $\Delta\gg T^{-1}$. Solving for
-$|\alpha_m|^2$ and inserting in the expression for the mode
-energy we find
+where we have assumed that $\Delta\gg T^{-1}$. Solving for
+$|\alpha_m|^2$ and inserting into the expression for the mode
+energy, Eqn.~(\ref{eqn:ModeEnergy}), we find
 \begin{equation}
   E_m = m\omega_m^2\frac{T}{\pi}
         \int_{\omega_m-\Delta}^{\omega_m+\Delta}I(\omega)\,d\omega\;.
+  \label{eqn:ModeEnergyFromSpectrum}
 \end{equation} 
 
 
@@ -216,7 +218,7 @@ energy we find
 
 In the simulations we sample the ion motion with a discrete,
 constant sampling rate $\Delta t$. In terms of this discretely
-sampled signal, the Fourier transform can be approximate by a
+sampled signal, the Fourier transform can be approximatet by a
 discrete Fourier transform (which we evaluate with the aid of a
 Fast Fourier Transform). We can consider the discrete Fourier
 transform as a Riemann sum approximation to the Fourier
@@ -224,8 +226,8 @@ transform,
 \begin{equation}
   \tilde{z}(\omega)=
   T^{-1}\int_0^Te^{-i\omega t}z(t)\,dt \approx
-  T^{-1}\sum_n^{N_s}\Delta t e^{-i\omega n\Delta t}z(n \Delta t) =
-  \frac{1}{N_s}\sum_n^{N_s}e^{-i\omega n\Delta t}z(n \Delta t)\;.
+  T^{-1}\sum_{n=0}^{N_s - 1}\Delta t e^{-i\omega n\Delta t}z(n \Delta t) =
+  \frac{1}{N_s}\sum_{n=0}^{N_s-1}e^{-i\omega n\Delta t}z(n \Delta t)\;.
 \end{equation}
 In this equation, $N_s = T / \Delta t$ is the total number of
 samples. Introducing the frequency grid spacing
@@ -237,7 +239,16 @@ transform as
 \end{equation}
 We have to keep in mind that frequencies exceeding the Nyquist
 frequency, $l\Delta\omega>\pi/\Delta t$, wrap around to negative
-frequencies.
+frequencies. This appxoximation for $\tilde{z}(\omega)$ can now
+be used in Eqn.~(\ref{eqn:ModeEnergyFromSpectrum}). To find the
+mode energy we have to numerically evaluate the integral.
+Currently we do this using the trapezoidal rule. However, several
+refinements could be made and may be needed because the
+resonances are sharp in the absence of laser cooling. For
+example, we could imagine fitting a Lorentzian to the line
+profile and then analytically evaluating the integral in
+Eqn.~(\ref{eqn:ModeEnergyFromSpectrum}).
+
 
 
 \end{document}
