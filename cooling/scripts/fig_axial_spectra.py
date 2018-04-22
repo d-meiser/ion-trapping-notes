@@ -91,7 +91,7 @@ wavelength = 313.0e-9
 k = 2.0 * np.pi / wavelength
 gamma = 2.0 * np.pi * 18.0e6
 hbar = 1.0e-34
-sigma = 1.0e0
+sigma = 3.0e-5
 axial_S0 = 0.1
 in_plane_S0 = 0.1
 
