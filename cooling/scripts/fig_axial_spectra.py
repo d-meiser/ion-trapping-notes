@@ -129,7 +129,7 @@ class GaussianBeam(object):
     def intensities(self, x):
         xp = x - self.x0
         xperp = xp - np.outer(xp.dot(self.k_hat[:, np.newaxis]), self.k_hat)
-        return self.S0 * np.exp(-np.linalg.norm(xperp, axis=1)**2/self.sigma)
+        return self.S0 * np.exp(-np.linalg.norm(xperp, axis=1)**2 / self.sigma**2)
 
 
 class DopplerDetuning(object):
