@@ -151,7 +151,7 @@ axial_cooling = [
 
 in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0.0]),
                                                GaussianBeam(in_plane_S0, np.array([0.0, sigma, 0.0]), np.array([k, 0.0, 0.0]), sigma),
-                                               DopplerDetuning(-0.5 * gamma + sigma * mode_analysis.wr *k, np.array([k, 0.0, 0.0])))
+                                               DopplerDetuning(-0.5 * gamma - sigma * mode_analysis.wr *k, np.array([k, 0.0, 0.0])))
 
 
 # Create an initial state with finite temperature by evolving from "ground
