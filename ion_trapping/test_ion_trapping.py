@@ -60,3 +60,50 @@ def test_axial_damping():
     epsilon = 1.0e-9
     normalization = np.linalg.norm(v) + np.linalg.norm(v_ref)
     assert(np.linalg.norm(v - v_ref) / normalization < epsilon)
+
+
+def coulomb_energy_reference(x, q):
+    num_ptcls = x.shape[0]
+    energy = 0.0
+    k_e = 1.0 / (4.0 * np.pi * 8.854187817e-12)
+    for i in range(num_ptcls):
+        for j in range(i):
+            r = np.linalg.norm(x[i] - x[j])
+            energy += k_e * q * q / r
+    return energy
+
+
+def coulomb_energy_per_particle_charge_reference(x, q):
+    num_ptcls = x.shape[0]
+    energy = 0.0
+    k_e = 1.0 / (4.0 * np.pi * 8.854187817e-12)
+    for i in range(num_ptcls):
+        for j in range(i):
+            r = np.linalg.norm(x[i] - x[j])
+            energy += k_e * q[i] * q[j] / r
+    return energy
+
+
+def rel_error(a, b):
+    return np.abs(a - b) / (np.abs(a) + np.abs(b))
+
+
+def test_coulomb_energy():
+    num_ptcls = 5
+    x = np.random.random([num_ptcls, 3]) - 0.5
+    q = 3.5
+
+    energy = ion_trapping.coulomb_energy(x, q)
+    energy_ref = coulomb_energy_reference(x, q)
+    assert(rel_error(energy, energy_ref) < 1.0e-6)
+    
+
+def test_coulomb_energy_per_particle_charge():
+    num_ptcls = 5
+    x = np.random.random([num_ptcls, 3]) - 0.5
+    q = np.random.random(num_ptcls) - 0.5
+
+    energy = ion_trapping.coulomb_energy_per_particle_charge(x, q)
+    energy_ref = coulomb_energy_per_particle_charge_reference(x, q)
+    assert(rel_error(energy, energy_ref) < 1.0e-6)
+    

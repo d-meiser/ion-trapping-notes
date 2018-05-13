@@ -41,6 +41,7 @@ def axial_damping(kappa_dt,
         &v[0, 0]
     )
 
+
 def create_ensemble(uE, omega_z, mass, charge):
     num_ions = int(uE.size / 2)
     x = uE[:num_ions]
@@ -66,3 +67,25 @@ def create_ensemble(uE, omega_z, mass, charge):
     ensemble.ensemble_properties['charge'] = charge
 
     return ensemble
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def coulomb_energy(np.ndarray[double, ndim=2, mode="c"] x not None,
+        charge):
+    assert(x.shape[1] == 3)
+    assert(np.isscalar(charge))
+    num_ptcls = x.shape[0]
+    return ion_trapping_lib.coulomb_energy(num_ptcls, &x[0, 0], charge)
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def coulomb_energy_per_particle_charge(
+        np.ndarray[double, ndim=2, mode="c"] x not None,
+        np.ndarray[double, ndim=1, mode="c"] charges):
+    assert(x.shape[1] == 3)
+    assert(charges.shape[0] == x.shape[0])
+    num_ptcls = x.shape[0]
+    return ion_trapping_lib.coulomb_energy_per_particle_charge(
+            num_ptcls, &x[0, 0], &charges[0])

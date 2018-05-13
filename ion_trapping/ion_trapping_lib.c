@@ -74,3 +74,64 @@ void axial_damping(
 		speed[i].z = expMinusKappaDt * speed[i].z;
 	}
 }
+
+// electrostatic constant 1 / (4 pi epsilon_0)
+static const double k_e = 8.9875517873681764e9;
+
+double coulomb_energy(
+	int num_ptcls,
+	const double *x,
+	double charge
+	)
+{
+	double energy = 0.0;
+	int i, j, m;
+	const double *xi;
+	const double *xj;
+	double r;
+	double k_e_q_squared = charge * charge * k_e;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		xi = x + i * 3;
+		for (j = 0; j < i; ++j) {
+			xj = x + j * 3;
+			r = 0.0;
+			for (m = 0; m < 3; ++m) {
+				r += (xi[m] - xj[m]) * (xi[m] - xj[m]);
+			}
+			r = sqrt(r);
+			energy += k_e_q_squared / r;
+		}
+	}
+	return energy;
+}
+
+double coulomb_energy_per_particle_charge(
+	int num_ptcls,
+	const double *x,
+	const double *charge
+	)
+{
+	double energy = 0.0;
+	int i, j, m;
+	const double *xi;
+	const double *xj;
+	double qi, qj;
+	double r;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		xi = x + i * 3;
+		qi = charge[i];
+		for (j = 0; j < i; ++j) {
+			xj = x + j * 3;
+			qj = charge[j];
+			r = 0.0;
+			for (m = 0; m < 3; ++m) {
+				r += (xi[m] - xj[m]) * (xi[m] - xj[m]);
+			}
+			r = sqrt(r);
+			energy += k_e * qi * qj / r;
+		}
+	}
+	return energy;
+}
