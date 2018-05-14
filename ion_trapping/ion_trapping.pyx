@@ -101,3 +101,18 @@ def trap_energy(np.ndarray[double, ndim=2, mode="c"] x not None,
     return ion_trapping_lib.trap_energy(num_ptcls, &x[0, 0],
             kx, ky, kz, theta, charge, mass, omega, B_z)
 
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def kinetic_energy(
+        np.ndarray[double, ndim=2, mode="c"] x not None,
+        np.ndarray[double, ndim=2, mode="c"] v not None,
+        mass, omega, theta):
+    assert(x.shape[1] == 3)
+    assert(v.shape[1] == 3)
+    assert(x.shape[0] == v.shape[0])
+    num_ptcls = x.shape[0]
+    return ion_trapping_lib.kinetic_energy(num_ptcls,
+            &x[0, 0], &v[0, 0],
+            mass, omega, theta)
+

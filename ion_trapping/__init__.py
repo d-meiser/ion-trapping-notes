@@ -4,5 +4,6 @@ from .ion_trapping import (
     create_ensemble,
     coulomb_energy,
     coulomb_energy_per_particle_charge,
-    trap_energy
+    trap_energy,
+    kinetic_energy,
 )

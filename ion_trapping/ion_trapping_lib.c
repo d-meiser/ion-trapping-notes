@@ -154,8 +154,8 @@ double trap_energy(
 	int i;
 
 	for (i = 0; i < num_ptcls; ++i) {
-		xr =  cos(theta) * x[i * 3 + 0] + sin(theta) * x[i * 3 + 1];
-		yr = -sin(theta) * x[i * 3 + 0] + cos(theta) * x[i * 3 + 1];
+		xr = cos(theta) * x[i * 3 + 0] - sin(theta) * x[i * 3 + 1];
+		yr = sin(theta) * x[i * 3 + 0] + cos(theta) * x[i * 3 + 1];
 		zr = x[i * 3 + 2];
 
 		energy += 0.5 * charge * (
@@ -169,3 +169,27 @@ double trap_energy(
 	return energy;
 }
 
+double kinetic_energy(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass,
+	double omega,
+	double theta
+	)
+{
+	double energy = 0.0;
+	int i;
+	double vr[3];
+
+	for (i = 0; i < num_ptcls; ++i) {
+		vr[0] = cos(theta) * v[3 * i + 0] - sin(theta) * v[3 * i + 1];
+		vr[1] = sin(theta) * v[3 * i + 0] + cos(theta) * v[3 * i + 1];
+		vr[0] -= omega * x[3 * i + 1];
+		vr[1] += omega * x[3 * i + 0];
+		vr[2] = v[3 * i + 2];
+		energy += 0.5 * mass * (
+			vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
+	}
+	return energy;
+}

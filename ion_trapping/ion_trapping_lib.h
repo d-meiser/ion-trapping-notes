@@ -38,4 +38,12 @@ double trap_energy(
 	double omega,
 	double B_z);
 
+double kinetic_energy(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass,
+	double omega,
+	double theta);
+
 #endif

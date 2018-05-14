@@ -1627,6 +1627,7 @@ static const char __pyx_k_trap_energy[] = "trap_energy";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_axial_damping[] = "axial_damping";
 static const char __pyx_k_coulomb_energy[] = "coulomb_energy";
+static const char __pyx_k_kinetic_energy[] = "kinetic_energy";
 static const char __pyx_k_angular_damping[] = "angular_damping";
 static const char __pyx_k_create_ensemble[] = "create_ensemble";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -1670,6 +1671,7 @@ static PyObject *__pyx_n_s_ion_trapping_ion_trapping;
 static PyObject *__pyx_kp_s_ion_trapping_ion_trapping_pyx;
 static PyObject *__pyx_n_s_isscalar;
 static PyObject *__pyx_n_s_kappa_dt;
+static PyObject *__pyx_n_s_kinetic_energy;
 static PyObject *__pyx_n_s_kx;
 static PyObject *__pyx_n_s_ky;
 static PyObject *__pyx_n_s_kz;
@@ -1707,6 +1709,7 @@ static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_4create_ensemble(CYTHON_
 static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_6coulomb_energy(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x, PyObject *__pyx_v_charge); /* proto */
 static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_8coulomb_energy_per_particle_charge(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_charges); /* proto */
 static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_10trap_energy(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x, PyObject *__pyx_v_kx, PyObject *__pyx_v_ky, PyObject *__pyx_v_kz, PyObject *__pyx_v_theta, PyObject *__pyx_v_charge, PyObject *__pyx_v_mass, PyObject *__pyx_v_omega, PyObject *__pyx_v_B_z); /* proto */
+static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_12kinetic_energy(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_v, PyObject *__pyx_v_mass, PyObject *__pyx_v_omega, PyObject *__pyx_v_theta); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_float_0_0;
@@ -1728,12 +1731,14 @@ static PyObject *__pyx_tuple__14;
 static PyObject *__pyx_tuple__16;
 static PyObject *__pyx_tuple__18;
 static PyObject *__pyx_tuple__20;
+static PyObject *__pyx_tuple__22;
 static PyObject *__pyx_codeobj__11;
 static PyObject *__pyx_codeobj__13;
 static PyObject *__pyx_codeobj__15;
 static PyObject *__pyx_codeobj__17;
 static PyObject *__pyx_codeobj__19;
 static PyObject *__pyx_codeobj__21;
+static PyObject *__pyx_codeobj__23;
 
 /* "ion_trapping/ion_trapping.pyx":10
  * @cython.boundscheck(False)
@@ -3900,6 +3905,7 @@ static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_10trap_energy(CYTHON_UNU
  *     return ion_trapping_lib.trap_energy(num_ptcls, &x[0, 0],
  *             kx, ky, kz, theta, charge, mass, omega, B_z)             # <<<<<<<<<<<<<<
  * 
+ * 
  */
   __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_kx); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
   __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_ky); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
@@ -3944,6 +3950,282 @@ static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_10trap_energy(CYTHON_UNU
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_x.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ion_trapping/ion_trapping.pyx":107
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def kinetic_energy(             # <<<<<<<<<<<<<<
+ *         np.ndarray[double, ndim=2, mode="c"] x not None,
+ *         np.ndarray[double, ndim=2, mode="c"] v not None,
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_12ion_trapping_12ion_trapping_13kinetic_energy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_12ion_trapping_12ion_trapping_13kinetic_energy = {"kinetic_energy", (PyCFunction)__pyx_pw_12ion_trapping_12ion_trapping_13kinetic_energy, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_12ion_trapping_12ion_trapping_13kinetic_energy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyArrayObject *__pyx_v_x = 0;
+  PyArrayObject *__pyx_v_v = 0;
+  PyObject *__pyx_v_mass = 0;
+  PyObject *__pyx_v_omega = 0;
+  PyObject *__pyx_v_theta = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("kinetic_energy (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x,&__pyx_n_s_v,&__pyx_n_s_mass,&__pyx_n_s_omega,&__pyx_n_s_theta,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_v)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("kinetic_energy", 1, 5, 5, 1); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mass)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("kinetic_energy", 1, 5, 5, 2); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_omega)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("kinetic_energy", 1, 5, 5, 3); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_theta)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("kinetic_energy", 1, 5, 5, 4); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "kinetic_energy") < 0)) __PYX_ERR(0, 107, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_x = ((PyArrayObject *)values[0]);
+    __pyx_v_v = ((PyArrayObject *)values[1]);
+    __pyx_v_mass = values[2];
+    __pyx_v_omega = values[3];
+    __pyx_v_theta = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("kinetic_energy", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 107, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ion_trapping.ion_trapping.kinetic_energy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 0, "x", 0))) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_v), __pyx_ptype_5numpy_ndarray, 0, "v", 0))) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_r = __pyx_pf_12ion_trapping_12ion_trapping_12kinetic_energy(__pyx_self, __pyx_v_x, __pyx_v_v, __pyx_v_mass, __pyx_v_omega, __pyx_v_theta);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_12ion_trapping_12ion_trapping_12kinetic_energy(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_v, PyObject *__pyx_v_mass, PyObject *__pyx_v_omega, PyObject *__pyx_v_theta) {
+  npy_intp __pyx_v_num_ptcls;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_v;
+  __Pyx_Buffer __pyx_pybuffer_v;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_x;
+  __Pyx_Buffer __pyx_pybuffer_x;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
+  __Pyx_RefNannySetupContext("kinetic_energy", 0);
+  __pyx_pybuffer_x.pybuffer.buf = NULL;
+  __pyx_pybuffer_x.refcount = 0;
+  __pyx_pybuffernd_x.data = NULL;
+  __pyx_pybuffernd_x.rcbuffer = &__pyx_pybuffer_x;
+  __pyx_pybuffer_v.pybuffer.buf = NULL;
+  __pyx_pybuffer_v.refcount = 0;
+  __pyx_pybuffernd_v.data = NULL;
+  __pyx_pybuffernd_v.rcbuffer = &__pyx_pybuffer_v;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_x.rcbuffer->pybuffer, (PyObject*)__pyx_v_x, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  }
+  __pyx_pybuffernd_x.diminfo[0].strides = __pyx_pybuffernd_x.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_x.diminfo[0].shape = __pyx_pybuffernd_x.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_x.diminfo[1].strides = __pyx_pybuffernd_x.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_x.diminfo[1].shape = __pyx_pybuffernd_x.rcbuffer->pybuffer.shape[1];
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_v.rcbuffer->pybuffer, (PyObject*)__pyx_v_v, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  }
+  __pyx_pybuffernd_v.diminfo[0].strides = __pyx_pybuffernd_v.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_v.diminfo[0].shape = __pyx_pybuffernd_v.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_v.diminfo[1].strides = __pyx_pybuffernd_v.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_v.diminfo[1].shape = __pyx_pybuffernd_v.rcbuffer->pybuffer.shape[1];
+
+  /* "ion_trapping/ion_trapping.pyx":111
+ *         np.ndarray[double, ndim=2, mode="c"] v not None,
+ *         mass, omega, theta):
+ *     assert(x.shape[1] == 3)             # <<<<<<<<<<<<<<
+ *     assert(v.shape[1] == 3)
+ *     assert(x.shape[0] == v.shape[0])
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    if (unlikely(!(((__pyx_v_x->dimensions[1]) == 3) != 0))) {
+      PyErr_SetNone(PyExc_AssertionError);
+      __PYX_ERR(0, 111, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "ion_trapping/ion_trapping.pyx":112
+ *         mass, omega, theta):
+ *     assert(x.shape[1] == 3)
+ *     assert(v.shape[1] == 3)             # <<<<<<<<<<<<<<
+ *     assert(x.shape[0] == v.shape[0])
+ *     num_ptcls = x.shape[0]
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    if (unlikely(!(((__pyx_v_v->dimensions[1]) == 3) != 0))) {
+      PyErr_SetNone(PyExc_AssertionError);
+      __PYX_ERR(0, 112, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "ion_trapping/ion_trapping.pyx":113
+ *     assert(x.shape[1] == 3)
+ *     assert(v.shape[1] == 3)
+ *     assert(x.shape[0] == v.shape[0])             # <<<<<<<<<<<<<<
+ *     num_ptcls = x.shape[0]
+ *     return ion_trapping_lib.kinetic_energy(num_ptcls,
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    if (unlikely(!(((__pyx_v_x->dimensions[0]) == (__pyx_v_v->dimensions[0])) != 0))) {
+      PyErr_SetNone(PyExc_AssertionError);
+      __PYX_ERR(0, 113, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "ion_trapping/ion_trapping.pyx":114
+ *     assert(v.shape[1] == 3)
+ *     assert(x.shape[0] == v.shape[0])
+ *     num_ptcls = x.shape[0]             # <<<<<<<<<<<<<<
+ *     return ion_trapping_lib.kinetic_energy(num_ptcls,
+ *             &x[0, 0], &v[0, 0],
+ */
+  __pyx_v_num_ptcls = (__pyx_v_x->dimensions[0]);
+
+  /* "ion_trapping/ion_trapping.pyx":115
+ *     assert(x.shape[0] == v.shape[0])
+ *     num_ptcls = x.shape[0]
+ *     return ion_trapping_lib.kinetic_energy(num_ptcls,             # <<<<<<<<<<<<<<
+ *             &x[0, 0], &v[0, 0],
+ *             mass, omega, theta)
+ */
+  __Pyx_XDECREF(__pyx_r);
+
+  /* "ion_trapping/ion_trapping.pyx":116
+ *     num_ptcls = x.shape[0]
+ *     return ion_trapping_lib.kinetic_energy(num_ptcls,
+ *             &x[0, 0], &v[0, 0],             # <<<<<<<<<<<<<<
+ *             mass, omega, theta)
+ * 
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+
+  /* "ion_trapping/ion_trapping.pyx":117
+ *     return ion_trapping_lib.kinetic_energy(num_ptcls,
+ *             &x[0, 0], &v[0, 0],
+ *             mass, omega, theta)             # <<<<<<<<<<<<<<
+ * 
+ */
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_mass); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_omega); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_v_theta); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+
+  /* "ion_trapping/ion_trapping.pyx":115
+ *     assert(x.shape[0] == v.shape[0])
+ *     num_ptcls = x.shape[0]
+ *     return ion_trapping_lib.kinetic_energy(num_ptcls,             # <<<<<<<<<<<<<<
+ *             &x[0, 0], &v[0, 0],
+ *             mass, omega, theta)
+ */
+  __pyx_t_8 = PyFloat_FromDouble(kinetic_energy(__pyx_v_num_ptcls, (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_x.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_x.diminfo[0].strides, __pyx_t_2, __pyx_pybuffernd_x.diminfo[1].strides))), (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_v.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_v.diminfo[0].strides, __pyx_t_4, __pyx_pybuffernd_v.diminfo[1].strides))), __pyx_t_5, __pyx_t_6, __pyx_t_7)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_r = __pyx_t_8;
+  __pyx_t_8 = 0;
+  goto __pyx_L0;
+
+  /* "ion_trapping/ion_trapping.pyx":107
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def kinetic_energy(             # <<<<<<<<<<<<<<
+ *         np.ndarray[double, ndim=2, mode="c"] x not None,
+ *         np.ndarray[double, ndim=2, mode="c"] v not None,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_8);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_v.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_x.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("ion_trapping.ion_trapping.kinetic_energy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_v.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_x.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6598,6 +6880,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_ion_trapping_ion_trapping_pyx, __pyx_k_ion_trapping_ion_trapping_pyx, sizeof(__pyx_k_ion_trapping_ion_trapping_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_isscalar, __pyx_k_isscalar, sizeof(__pyx_k_isscalar), 0, 0, 1, 1},
   {&__pyx_n_s_kappa_dt, __pyx_k_kappa_dt, sizeof(__pyx_k_kappa_dt), 0, 0, 1, 1},
+  {&__pyx_n_s_kinetic_energy, __pyx_k_kinetic_energy, sizeof(__pyx_k_kinetic_energy), 0, 0, 1, 1},
   {&__pyx_n_s_kx, __pyx_k_kx, sizeof(__pyx_k_kx), 0, 0, 1, 1},
   {&__pyx_n_s_ky, __pyx_k_ky, sizeof(__pyx_k_ky), 0, 0, 1, 1},
   {&__pyx_n_s_kz, __pyx_k_kz, sizeof(__pyx_k_kz), 0, 0, 1, 1},
@@ -6813,6 +7096,18 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
   __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(9, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ion_trapping_ion_trapping_pyx, __pyx_n_s_trap_energy, 96, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 96, __pyx_L1_error)
+
+  /* "ion_trapping/ion_trapping.pyx":107
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def kinetic_energy(             # <<<<<<<<<<<<<<
+ *         np.ndarray[double, ndim=2, mode="c"] x not None,
+ *         np.ndarray[double, ndim=2, mode="c"] v not None,
+ */
+  __pyx_tuple__22 = PyTuple_Pack(6, __pyx_n_s_x, __pyx_n_s_v, __pyx_n_s_mass, __pyx_n_s_omega, __pyx_n_s_theta, __pyx_n_s_num_ptcls); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ion_trapping_ion_trapping_pyx, __pyx_n_s_kinetic_energy, 107, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -7081,6 +7376,18 @@ static int __pyx_pymod_exec_ion_trapping(PyObject *__pyx_pyinit_module)
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_12ion_trapping_12ion_trapping_11trap_energy, NULL, __pyx_n_s_ion_trapping_ion_trapping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_trap_energy, __pyx_t_1) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "ion_trapping/ion_trapping.pyx":107
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def kinetic_energy(             # <<<<<<<<<<<<<<
+ *         np.ndarray[double, ndim=2, mode="c"] x not None,
+ *         np.ndarray[double, ndim=2, mode="c"] v not None,
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_12ion_trapping_12ion_trapping_13kinetic_energy, NULL, __pyx_n_s_ion_trapping_ion_trapping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_kinetic_energy, __pyx_t_1) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "ion_trapping/ion_trapping.pyx":1
