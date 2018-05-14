@@ -74,3 +74,122 @@ void axial_damping(
 		speed[i].z = expMinusKappaDt * speed[i].z;
 	}
 }
+
+// electrostatic constant 1 / (4 pi epsilon_0)
+static const double k_e = 8.9875517873681764e9;
+
+double coulomb_energy(
+	int num_ptcls,
+	const double *x,
+	double charge
+	)
+{
+	double energy = 0.0;
+	int i, j, m;
+	const double *xi;
+	const double *xj;
+	double r;
+	double k_e_q_squared = charge * charge * k_e;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		xi = x + i * 3;
+		for (j = 0; j < i; ++j) {
+			xj = x + j * 3;
+			r = 0.0;
+			for (m = 0; m < 3; ++m) {
+				r += (xi[m] - xj[m]) * (xi[m] - xj[m]);
+			}
+			r = sqrt(r);
+			energy += k_e_q_squared / r;
+		}
+	}
+	return energy;
+}
+
+double coulomb_energy_per_particle_charge(
+	int num_ptcls,
+	const double *x,
+	const double *charge
+	)
+{
+	double energy = 0.0;
+	int i, j, m;
+	const double *xi;
+	const double *xj;
+	double qi, qj;
+	double r;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		xi = x + i * 3;
+		qi = charge[i];
+		for (j = 0; j < i; ++j) {
+			xj = x + j * 3;
+			qj = charge[j];
+			r = 0.0;
+			for (m = 0; m < 3; ++m) {
+				r += (xi[m] - xj[m]) * (xi[m] - xj[m]);
+			}
+			r = sqrt(r);
+			energy += k_e * qi * qj / r;
+		}
+	}
+	return energy;
+}
+
+double trap_energy(
+	int num_ptcls,
+	const double *x,
+	double kx,
+	double ky,
+	double kz,
+	double theta,
+	double charge,
+	double mass,
+	double omega,
+	double B_z
+	)
+{
+	double energy;
+	double xr, yr, zr;
+	int i;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		xr = cos(theta) * x[i * 3 + 0] - sin(theta) * x[i * 3 + 1];
+		yr = sin(theta) * x[i * 3 + 0] + cos(theta) * x[i * 3 + 1];
+		zr = x[i * 3 + 2];
+
+		energy += 0.5 * charge * (
+			kz * zr * zr +
+			kx * xr * xr +
+			ky * yr * yr +
+			(B_z * omega  - 2.0 * mass * omega * omega) *
+			(xr * xr + yr * yr));
+
+	}
+	return energy;
+}
+
+double kinetic_energy(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass,
+	double omega,
+	double theta
+	)
+{
+	double energy = 0.0;
+	int i;
+	double vr[3];
+
+	for (i = 0; i < num_ptcls; ++i) {
+		vr[0] = cos(theta) * v[3 * i + 0] - sin(theta) * v[3 * i + 1];
+		vr[1] = sin(theta) * v[3 * i + 0] + cos(theta) * v[3 * i + 1];
+		vr[0] -= omega * x[3 * i + 1];
+		vr[1] += omega * x[3 * i + 0];
+		vr[2] = v[3 * i + 2];
+		energy += 0.5 * mass * (
+			vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
+	}
+	return energy;
+}
