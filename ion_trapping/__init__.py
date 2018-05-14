@@ -3,5 +3,6 @@ from .ion_trapping import (
     axial_damping,
     create_ensemble,
     coulomb_energy,
-    coulomb_energy_per_particle_charge
+    coulomb_energy_per_particle_charge,
+    trap_energy
 )

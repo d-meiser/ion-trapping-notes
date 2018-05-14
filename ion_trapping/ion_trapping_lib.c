@@ -135,3 +135,37 @@ double coulomb_energy_per_particle_charge(
 	}
 	return energy;
 }
+
+double trap_energy(
+	int num_ptcls,
+	const double *x,
+	double kx,
+	double ky,
+	double kz,
+	double theta,
+	double charge,
+	double mass,
+	double omega,
+	double B_z
+	)
+{
+	double energy;
+	double xr, yr, zr;
+	int i;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		xr =  cos(theta) * x[i * 3 + 0] + sin(theta) * x[i * 3 + 1];
+		yr = -sin(theta) * x[i * 3 + 0] + cos(theta) * x[i * 3 + 1];
+		zr = x[i * 3 + 2];
+
+		energy += 0.5 * charge * (
+			kz * zr * zr +
+			kx * xr * xr +
+			ky * yr * yr +
+			(B_z * omega  - 2.0 * mass * omega * omega) *
+			(xr * xr + yr * yr));
+
+	}
+	return energy;
+}
+

@@ -89,3 +89,15 @@ def coulomb_energy_per_particle_charge(
     num_ptcls = x.shape[0]
     return ion_trapping_lib.coulomb_energy_per_particle_charge(
             num_ptcls, &x[0, 0], &charges[0])
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def trap_energy(np.ndarray[double, ndim=2, mode="c"] x not None,
+        kx, ky, kz, theta,
+        charge, mass, omega, B_z):
+    assert(x.shape[1] == 3)
+    num_ptcls = x.shape[0]
+    return ion_trapping_lib.trap_energy(num_ptcls, &x[0, 0],
+            kx, ky, kz, theta, charge, mass, omega, B_z)
+

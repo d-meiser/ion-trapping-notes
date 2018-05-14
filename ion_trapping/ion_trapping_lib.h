@@ -26,4 +26,16 @@ double coulomb_energy_per_particle_charge(
 	const double *x,
 	const double *charge);
 
+double trap_energy(
+	int num_ptcls,
+	const double *x,
+	double kx,
+	double ky,
+	double kz,
+	double theta,
+	double charge,
+	double mass,
+	double omega,
+	double B_z);
+
 #endif
