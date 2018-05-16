@@ -182,11 +182,13 @@ double kinetic_energy(
 	int i;
 	double vr[3];
 
+	double c = cos(theta);
+	double s = sin(theta);
 	for (i = 0; i < num_ptcls; ++i) {
-		vr[0] = cos(theta) * v[3 * i + 0] - sin(theta) * v[3 * i + 1];
-		vr[1] = sin(theta) * v[3 * i + 0] + cos(theta) * v[3 * i + 1];
-		vr[0] -= omega * x[3 * i + 1];
-		vr[1] += omega * x[3 * i + 0];
+		vr[0] = c * v[3 * i + 0] - s * v[3 * i + 1];
+		vr[1] = s * v[3 * i + 0] + c * v[3 * i + 1];
+		vr[0] -= omega * ( s * x[3 * i + 0] + c * x[3 * i + 1]);
+		vr[1] -= omega * (-c * x[3 * i + 0] + s * x[3 * i + 1]);
 		vr[2] = v[3 * i + 2];
 		energy += 0.5 * mass * (
 			vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
