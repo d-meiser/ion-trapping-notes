@@ -32,6 +32,10 @@ print(compute_energy(my_ensemble,
     trap_potential.kx,
     trap_potential.ky,
     trap_potential.kz))
+print(ion_trapping.kinetic_energy(
+    my_ensemble.x, my_ensemble.v,
+    my_ensemble.ensemble_properties['mass'],
+    mode_analysis.wr, 0.0))
             
             
 #TODO:
