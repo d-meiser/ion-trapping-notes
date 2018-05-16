@@ -149,7 +149,7 @@ double trap_energy(
 	double B_z
 	)
 {
-	double energy;
+	double energy = 0.0;
 	double xr, yr, zr;
 	int i;
 
