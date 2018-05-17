@@ -190,6 +190,13 @@ double kinetic_energy(
 		vr[0] -= omega * ( s * x[3 * i + 0] + c * x[3 * i + 1]);
 		vr[1] -= omega * (-c * x[3 * i + 0] + s * x[3 * i + 1]);
 		vr[2] = v[3 * i + 2];
+		printf("%e ", v[3 * i + 0]);
+		printf("%e ", v[3 * i + 1]);
+		printf("%e ", v[3 * i + 2]);
+		printf("%e ", vr[0]);
+		printf("%e ", vr[1]);
+		printf("%e ", vr[2]);
+		printf("\n");
 		energy += 0.5 * mass * (
 			vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
 	}
