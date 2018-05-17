@@ -101,3 +101,5 @@ ENV/
 .mypy_cache/
 
 *.swp
+
+ion_trapping/ion_trapping.c
