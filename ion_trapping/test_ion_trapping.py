@@ -124,20 +124,7 @@ def test_temperature_of_particles_at_rest_is_zero():
     v = transform_to_rotating_frame(x, v, omega)
 
     m = 23.0
-    kin_energy = ion_trapping.kinetic_energy(x, v, m, omega, 0.0)
+    kin_energy = ion_trapping.kinetic_energy(x, v, m, omega)
     assert(abs(kin_energy) < 1.0e-6)
-
-
-def test_kinetic_energy_is_phase_invariant():
-    num_ptcls = 5
-    x = np.random.random([num_ptcls, 3]) - 0.5
-    v = np.random.random([num_ptcls, 3]) - 0.5
-    omega = 134.0
-    v = transform_to_rotating_frame(x, v, omega)
-
-    m = 23.0
-    kin_energy_1 = ion_trapping.kinetic_energy(x, v, m, omega, 0.0)
-    kin_energy_2 = ion_trapping.kinetic_energy(x, v, m, omega, 1.3)
-    assert(abs(kin_energy_2 - kin_energy_1) < 1.0e-6)
 
 

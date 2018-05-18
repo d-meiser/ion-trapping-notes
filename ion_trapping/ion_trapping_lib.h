@@ -43,7 +43,6 @@ double kinetic_energy(
 	const double *x,
 	const double *v,
 	double mass,
-	double omega,
-	double theta);
+	double omega);
 
 #endif

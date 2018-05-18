@@ -35,6 +35,5 @@ cdef extern from "ion_trapping_lib.h":
             const double *x,
             const double *v,
             double mass,
-            double omega,
-            double theta);
+            double omega);
 
