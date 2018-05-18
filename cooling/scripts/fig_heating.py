@@ -13,7 +13,7 @@ evolve_ensemble(dt, t_max, my_ensemble, mode_analysis.B,
 def compute_energy(ensemble, B_z, omega, theta, kx, ky, kz):
     energy = ion_trapping.kinetic_energy(
             ensemble.x, ensemble.v,
-            ensemble.ensemble_properties['mass'], omega, theta)
+            ensemble.ensemble_properties['mass'], omega)
     energy += ion_trapping.trap_energy(
             ensemble.x,
             kx, ky, kz, theta,
@@ -39,7 +39,7 @@ print(compute_energy(my_ensemble,
 print(ion_trapping.kinetic_energy(
     my_ensemble.x, my_ensemble.v,
     my_ensemble.ensemble_properties['mass'],
-    -mode_analysis.wrot, -np.pi/2))
+    -mode_analysis.wrot))
             
             
 #TODO:
