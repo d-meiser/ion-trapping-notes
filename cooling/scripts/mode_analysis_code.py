@@ -3,7 +3,11 @@ from scipy.constants import pi
 import scipy.constants as cons
 import numpy as np
 import scipy.optimize as optimize
-import matplotlib.pyplot as plt
+try:
+    import matplotlib.pyplot as plt
+    have_plt = True
+except:
+    have_plt = False
 import scipy.linalg
 
 __author__ = 'sbt'
