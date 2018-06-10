@@ -48,11 +48,12 @@ def total_energy(ensemble, B_z, omega, theta, kx, ky, kz):
 dt = 1.0e-9
 t_max = 1.0e-6
 num_steps = 100
-my_ensemble = initial_state.copy()
-trap_potential.reset_phase()
 
 
 for (i, delta) in enumerate(np.linspace(-2.0 * gamma, 2.0 * gamma, 20)):
+    my_ensemble = initial_state.copy()
+    trap_potential.reset_phase()
+
     in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0.0]),
                                                    GaussianBeam(in_plane_S0, np.array([0.0, sigma, 0.0]), np.array([k, 0.0, 0.0]), sigma),
                                                    DopplerDetuning(delta, np.array([k, 0.0, 0.0])))
