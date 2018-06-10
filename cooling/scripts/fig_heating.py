@@ -55,9 +55,9 @@ for (i, delta) in enumerate(np.linspace(-0.7 * gamma, -0.3 * gamma, 20)):
     trap_potential.reset_phase()
 
     in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0.0]),
-                                                   GaussianBeam(in_plane_S0, np.array([0.0, sigma, 0.0]), np.array([k, 0.0, 0.0]), sigma),
+                                                   GaussianBeam(in_plane_S0, np.array([0.0, -sigma, 0.0]), np.array([k, 0.0, 0.0]), sigma),
                                                    DopplerDetuning(delta, np.array([k, 0.0, 0.0])))
-    f = open('heating_run_1_' + str(i) + '.dat', 'w')
+    f = open('heating_run_2_' + str(i) + '.dat', 'w')
 
     kin_in_plane = [kinetic_energy_in_plane(my_ensemble, mode_analysis.wrot)]
     kin_out_of_plane = [kinetic_energy_out_of_plane(my_ensemble)]
