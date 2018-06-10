@@ -174,24 +174,58 @@ double kinetic_energy(
 	const double *x,
 	const double *v,
 	double mass,
-	double omega,
-	double theta
+	double omega
 	)
 {
 	double energy = 0.0;
 	int i;
 	double vr[3];
 
-	double c = cos(theta);
-	double s = sin(theta);
 	for (i = 0; i < num_ptcls; ++i) {
-		vr[0] = c * v[3 * i + 0] - s * v[3 * i + 1];
-		vr[1] = s * v[3 * i + 0] + c * v[3 * i + 1];
-		vr[0] -= omega * ( s * x[3 * i + 0] + c * x[3 * i + 1]);
-		vr[1] -= omega * (-c * x[3 * i + 0] + s * x[3 * i + 1]);
+		vr[0] = v[3 * i + 0];
+		vr[1] = v[3 * i + 1];
+		vr[0] -= (-omega) * x[3 * i + 1];
+		vr[1] += (-omega) * x[3 * i + 0];
 		vr[2] = v[3 * i + 2];
 		energy += 0.5 * mass * (
 			vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
 	}
 	return energy;
 }
+
+double kinetic_energy_in_plane(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass,
+	double omega)
+{
+	double energy = 0.0;
+	int i;
+	double vr[2];
+
+	for (i = 0; i < num_ptcls; ++i) {
+		vr[0] = v[3 * i + 0];
+		vr[1] = v[3 * i + 1];
+		vr[0] -= (-omega) * x[3 * i + 1];
+		vr[1] += (-omega) * x[3 * i + 0];
+		energy += 0.5 * mass * (vr[0] * vr[0] + vr[1] * vr[1]);
+	}
+	return energy;
+}
+
+double kinetic_energy_out_of_plane(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass)
+{
+	double energy = 0.0;
+	int i;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		energy += 0.5 * mass * v[3 * i + 2] * v[3 * i + 2];
+	}
+	return energy;
+}
+

@@ -107,12 +107,40 @@ def trap_energy(np.ndarray[double, ndim=2, mode="c"] x not None,
 def kinetic_energy(
         np.ndarray[double, ndim=2, mode="c"] x not None,
         np.ndarray[double, ndim=2, mode="c"] v not None,
-        mass, omega, theta):
+        mass, omega):
     assert(x.shape[1] == 3)
     assert(v.shape[1] == 3)
     assert(x.shape[0] == v.shape[0])
     num_ptcls = x.shape[0]
     return ion_trapping_lib.kinetic_energy(num_ptcls,
             &x[0, 0], &v[0, 0],
-            mass, omega, theta)
+            mass, omega)
 
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def kinetic_energy_in_plane(
+        np.ndarray[double, ndim=2, mode="c"] x not None,
+        np.ndarray[double, ndim=2, mode="c"] v not None,
+        mass, omega):
+    assert(x.shape[1] == 3)
+    assert(v.shape[1] == 3)
+    assert(x.shape[0] == v.shape[0])
+    num_ptcls = x.shape[0]
+    return ion_trapping_lib.kinetic_energy_in_plane(num_ptcls,
+            &x[0, 0], &v[0, 0],
+            mass, omega)
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def kinetic_energy_out_of_plane(
+        np.ndarray[double, ndim=2, mode="c"] x not None,
+        np.ndarray[double, ndim=2, mode="c"] v not None,
+        mass):
+    assert(x.shape[1] == 3)
+    assert(v.shape[1] == 3)
+    assert(x.shape[0] == v.shape[0])
+    num_ptcls = x.shape[0]
+    return ion_trapping_lib.kinetic_energy_out_of_plane(num_ptcls,
+            &x[0, 0], &v[0, 0], mass)

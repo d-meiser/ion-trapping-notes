@@ -7,6 +7,10 @@ import time
 import mode_analysis_code
 import coldatoms
 
+
+kB = 1.38064852e-23
+
+
 # Preamble for figures
 # Enable LaTeX
 plt.rc('text', usetex=True)
@@ -94,7 +98,7 @@ gamma = 2.0 * np.pi * 18.0e6
 hbar = 1.0e-34
 sigma = 3.0e-5
 axial_S0 = 0.1
-in_plane_S0 = 0.1
+in_plane_S0 = 0.3
 
 
 class UniformBeam(object):

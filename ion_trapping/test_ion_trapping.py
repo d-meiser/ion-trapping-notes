@@ -110,8 +110,8 @@ def test_coulomb_energy_per_particle_charge():
 
 def transform_to_rotating_frame(x, v, omega):
     transformed_v = np.zeros_like(v)
-    transformed_v[:, 0] = v[:, 0] + omega * x[:, 1]
-    transformed_v[:, 1] = v[:, 1] - omega * x[:, 0]
+    transformed_v[:, 0] = v[:, 0] - omega * x[:, 1]
+    transformed_v[:, 1] = v[:, 1] + omega * x[:, 0]
     transformed_v[:, 2] = v[:, 2]
     return transformed_v
 
@@ -124,20 +124,30 @@ def test_temperature_of_particles_at_rest_is_zero():
     v = transform_to_rotating_frame(x, v, omega)
 
     m = 23.0
-    kin_energy = ion_trapping.kinetic_energy(x, v, m, omega, 0.0)
+    kin_energy = ion_trapping.kinetic_energy(x, v, m, omega)
     assert(abs(kin_energy) < 1.0e-6)
 
 
-def test_kinetic_energy_is_phase_invariant():
+def test_in_plane_temperature_of_particles_at_rest_is_zero():
     num_ptcls = 5
     x = np.random.random([num_ptcls, 3]) - 0.5
-    v = np.random.random([num_ptcls, 3]) - 0.5
+    v = np.zeros_like(x)
     omega = 134.0
     v = transform_to_rotating_frame(x, v, omega)
 
     m = 23.0
-    kin_energy_1 = ion_trapping.kinetic_energy(x, v, m, omega, 0.0)
-    kin_energy_2 = ion_trapping.kinetic_energy(x, v, m, omega, 1.3)
-    assert(abs(kin_energy_2 - kin_energy_1) < 1.0e-6)
+    kin_energy = ion_trapping.kinetic_energy_in_plane(x, v, m, omega)
+    assert(abs(kin_energy) < 1.0e-6)
 
+
+def test_out_of_plane_temperature_of_particles_at_rest_is_zero():
+    num_ptcls = 5
+    x = np.random.random([num_ptcls, 3]) - 0.5
+    v = np.zeros_like(x)
+    omega = 134.0
+    v = transform_to_rotating_frame(x, v, omega)
+
+    m = 23.0
+    kin_energy = ion_trapping.kinetic_energy_out_of_plane(x, v, m)
+    assert(abs(kin_energy) < 1.0e-6)
 
