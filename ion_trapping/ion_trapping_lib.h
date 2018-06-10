@@ -45,4 +45,18 @@ double kinetic_energy(
 	double mass,
 	double omega);
 
+double kinetic_energy_in_plane(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass,
+	double omega);
+
+double kinetic_energy_out_of_plane(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass);
+
+
 #endif

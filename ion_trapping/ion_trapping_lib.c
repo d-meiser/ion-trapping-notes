@@ -192,3 +192,40 @@ double kinetic_energy(
 	}
 	return energy;
 }
+
+double kinetic_energy_in_plane(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass,
+	double omega)
+{
+	double energy = 0.0;
+	int i;
+	double vr[2];
+
+	for (i = 0; i < num_ptcls; ++i) {
+		vr[0] = v[3 * i + 0];
+		vr[1] = v[3 * i + 1];
+		vr[0] -= (-omega) * x[3 * i + 1];
+		vr[1] += (-omega) * x[3 * i + 0];
+		energy += 0.5 * mass * (vr[0] * vr[0] + vr[1] * vr[1]);
+	}
+	return energy;
+}
+
+double kinetic_energy_out_of_plane(
+	int num_ptcls,
+	const double *x,
+	const double *v,
+	double mass)
+{
+	double energy = 0.0;
+	int i;
+
+	for (i = 0; i < num_ptcls; ++i) {
+		energy += 0.5 * mass * v[3 * i + 0] * v[3 * i + 0];
+	}
+	return energy;
+}
+
