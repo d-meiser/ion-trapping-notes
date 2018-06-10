@@ -103,3 +103,4 @@ ENV/
 *.swp
 
 ion_trapping/ion_trapping.c
+*.dat
