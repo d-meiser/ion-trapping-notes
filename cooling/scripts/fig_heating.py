@@ -31,8 +31,8 @@ def total_energy(ensemble, B_z, omega, theta, kx, ky, kz):
 
 
 dt = 1.0e-9
-t_max = 1.0e-8
-num_steps = 10
+t_max = 5.0e-7
+num_steps = 50
 my_ensemble = initial_state.copy()
 trap_potential.reset_phase()
 
