@@ -45,10 +45,12 @@ pot = [potential_energy(my_ensemble,
         trap_potential.ky,
         trap_potential.kz)]
 t = 0.0
-print(' step      t        Ekin         Epot         Etot')
+print(' step      t        Ekin         Epot         Etot      Temperature/mK')
+format_string = '%5d  %.2e  %.5e  %.5e  %.5e    %.5e'
 for i in range(num_steps):
-    print('%5d  %.2e  %.5e  %.5e  %.5e' %
-            (i, t, kin[-1], pot[-1], kin[-1] + pot[-1]))
+    print(format_string%
+            (i, t, kin[-1], pot[-1], kin[-1] + pot[-1],
+                kin[-1] / num_ions / 1.5 / kB))
     evolve_ensemble(dt, t_max, my_ensemble, mode_analysis.B,
                     forces + [in_plane_cooling] + axial_cooling)
     t += t_max
@@ -59,3 +61,7 @@ for i in range(num_steps):
             trap_potential.kx,
             trap_potential.ky,
             trap_potential.kz))
+
+print(format_string %
+        (num_steps, t, kin[-1], pot[-1], kin[-1] + pot[-1],
+            kin[-1] / num_ions / 1.5 / kB))

@@ -7,6 +7,10 @@ import time
 import mode_analysis_code
 import coldatoms
 
+
+kB = 1.38064852e-23
+
+
 # Preamble for figures
 # Enable LaTeX
 plt.rc('text', usetex=True)
