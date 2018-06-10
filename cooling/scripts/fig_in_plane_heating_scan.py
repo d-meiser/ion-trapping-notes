@@ -20,3 +20,4 @@ print('\n\n')
 for j in range(0, 20):
     data = read_data(2, j)
     print(np.mean(data[50:, 2]))
+
