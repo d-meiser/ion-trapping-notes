@@ -224,7 +224,7 @@ double kinetic_energy_out_of_plane(
 	int i;
 
 	for (i = 0; i < num_ptcls; ++i) {
-		energy += 0.5 * mass * v[3 * i + 0] * v[3 * i + 0];
+		energy += 0.5 * mass * v[3 * i + 2] * v[3 * i + 2];
 	}
 	return energy;
 }

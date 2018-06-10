@@ -128,3 +128,26 @@ def test_temperature_of_particles_at_rest_is_zero():
     assert(abs(kin_energy) < 1.0e-6)
 
 
+def test_in_plane_temperature_of_particles_at_rest_is_zero():
+    num_ptcls = 5
+    x = np.random.random([num_ptcls, 3]) - 0.5
+    v = np.zeros_like(x)
+    omega = 134.0
+    v = transform_to_rotating_frame(x, v, omega)
+
+    m = 23.0
+    kin_energy = ion_trapping.kinetic_energy_in_plane(x, v, m, omega)
+    assert(abs(kin_energy) < 1.0e-6)
+
+
+def test_out_of_plane_temperature_of_particles_at_rest_is_zero():
+    num_ptcls = 5
+    x = np.random.random([num_ptcls, 3]) - 0.5
+    v = np.zeros_like(x)
+    omega = 134.0
+    v = transform_to_rotating_frame(x, v, omega)
+
+    m = 23.0
+    kin_energy = ion_trapping.kinetic_energy_out_of_plane(x, v, m)
+    assert(abs(kin_energy) < 1.0e-6)
+
