@@ -110,8 +110,8 @@ def test_coulomb_energy_per_particle_charge():
 
 def transform_to_rotating_frame(x, v, omega):
     transformed_v = np.zeros_like(v)
-    transformed_v[:, 0] = v[:, 0] + omega * x[:, 1]
-    transformed_v[:, 1] = v[:, 1] - omega * x[:, 0]
+    transformed_v[:, 0] = v[:, 0] - omega * x[:, 1]
+    transformed_v[:, 1] = v[:, 1] + omega * x[:, 0]
     transformed_v[:, 2] = v[:, 2]
     return transformed_v
 
