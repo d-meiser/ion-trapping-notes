@@ -70,7 +70,7 @@ for (i, delta) in enumerate(np.linspace(-2.0 * gamma, 2.0 * gamma, 20)):
         t_tot = (kin_in_plane[-1] + kin_out_of_plane[-1]) / (num_ions * (3.0 / 2.0) * kB * 1.0e-3)
         f.write(format_string %
                 (i, t, t_in_plane, t_out_of_plane, t_tot))
-        sys.stdout.flush()
+        f.flush()
         evolve_ensemble(dt, t_max, my_ensemble, mode_analysis.B,
                         forces + [in_plane_cooling] + axial_cooling)
         t += t_max
