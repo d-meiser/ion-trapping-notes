@@ -50,7 +50,7 @@ t_max = 1.0e-6
 num_steps = 100
 
 
-for (i, delta) in enumerate(np.linspace(-2.0 * gamma, 2.0 * gamma, 20)):
+for (i, delta) in enumerate(np.linspace(-1.0 * gamma, 1.0 * gamma, 20)):
     my_ensemble = initial_state.copy()
     trap_potential.reset_phase()
 
@@ -62,6 +62,7 @@ for (i, delta) in enumerate(np.linspace(-2.0 * gamma, 2.0 * gamma, 20)):
     kin_in_plane = [kinetic_energy_in_plane(my_ensemble, mode_analysis.wrot)]
     kin_out_of_plane = [kinetic_energy_out_of_plane(my_ensemble)]
     t = 0.0
+    f.write('Delta = %.3e gamma\n' % (delta / gamma))
     f.write(' step      t        T_in_plane/mK   T_out_of_plane/mK   T_tot/mK\n')
     format_string = '%5d  %.2e      %.5e       %.5e       %.5e\n'
     for i in range(num_steps):
