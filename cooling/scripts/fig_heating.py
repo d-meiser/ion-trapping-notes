@@ -46,11 +46,11 @@ def total_energy(ensemble, B_z, omega, theta, kx, ky, kz):
 
 
 dt = 1.0e-9
-t_max = 1.0e-6
-num_steps = 500
+t_max = 5.0e-6
+num_steps = 200
 
-axial_S0 = 0.02
-in_plane_S0 = 0.1
+axial_S0 = 0.2
+in_plane_S0 = 0.5
 axial_cooling = [
     coldatoms.RadiationPressure(gamma, hbar * np.array([0.0, 0.0, k]),
                                 UniformBeam(S0=axial_S0),
@@ -60,14 +60,14 @@ axial_cooling = [
                                 DopplerDetuning(-0.5 * gamma, np.array([0.0, 0.0, -k]))),
                             ]
 
-for (i, delta) in enumerate(np.linspace(-2.0 * gamma, 2.0 * gamma, 50)):
+for (i, delta) in enumerate(np.linspace(-5.0 * gamma, 1.0 * gamma, 30)):
     my_ensemble = initial_state.copy()
     trap_potential.reset_phase()
 
     in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0.0]),
                                                    GaussianBeam(in_plane_S0, np.array([0.0, sigma, 0.0]), np.array([k, 0.0, 0.0]), sigma),
                                                    DopplerDetuning(delta - 2.0 * np.pi * frot * sigma * k, np.array([k, 0.0, 0.0])))
-    f = open('heating_run_3_' + str(i) + '.dat', 'w')
+    f = open('heating_run_4_' + str(i) + '.dat', 'w')
 
     kin_in_plane = [kinetic_energy_in_plane(my_ensemble, mode_analysis.wrot)]
     kin_out_of_plane = [kinetic_energy_out_of_plane(my_ensemble)]
