@@ -49,26 +49,29 @@ dt = 1.0e-9
 t_max = 5.0e-6
 num_steps = 200
 
-axial_S0 = 0.2
+axial_S0 = 0.0
 in_plane_S0 = 0.5
 offset = 0.0 * sigma
-axial_cooling = [
-    coldatoms.RadiationPressure(gamma, hbar * np.array([0.0, 0.0, k]),
-                                UniformBeam(S0=axial_S0),
-                                DopplerDetuning(-0.5 * gamma, np.array([0.0, 0.0, k]))),
-    coldatoms.RadiationPressure(gamma, hbar * np.array([0.0, 0.0, -k]),
-                                UniformBeam(S0=axial_S0),
-                                DopplerDetuning(-0.5 * gamma, np.array([0.0, 0.0, -k]))),
-                            ]
+T_initial = 30.0e-3
+#axial_cooling = [
+#    coldatoms.RadiationPressure(gamma, hbar * np.array([0.0, 0.0, k]),
+#                                UniformBeam(S0=axial_S0),
+#                                DopplerDetuning(-0.5 * gamma, np.array([0.0, 0.0, k]))),
+#    coldatoms.RadiationPressure(gamma, hbar * np.array([0.0, 0.0, -k]),
+#                                UniformBeam(S0=axial_S0),
+#                                DopplerDetuning(-0.5 * gamma, np.array([0.0, 0.0, -k]))),
+#                            ]
 
-for (i, delta) in enumerate(np.linspace(-4.0 * gamma, 0.0, 20)):
+for (i, delta) in enumerate(np.linspace(-20.0 * gamma, 0.0, 40)):
     my_ensemble = initial_state.copy()
+    delta_v = np.sqrt(2.0 * kB * T_initial / mass)
+    my_ensemble.v[:,:2] += np.random.normal(0, delta_v, my_ensemble.v[:,:2].shape)
     trap_potential.reset_phase()
 
     in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0.0]),
                                                    GaussianBeam(in_plane_S0, np.array([0.0, offset, 0.0]), np.array([k, 0.0, 0.0]), sigma),
                                                    DopplerDetuning(delta - 2.0 * np.pi * frot * offset * k, np.array([k, 0.0, 0.0])))
-    f = open('heating_run_4_' + str(i) + '.dat', 'w')
+    f = open('heating_run_5_' + str(i) + '.dat', 'w')
 
     kin_in_plane = [kinetic_energy_in_plane(my_ensemble, mode_analysis.wrot)]
     kin_out_of_plane = [kinetic_energy_out_of_plane(my_ensemble)]
@@ -83,8 +86,9 @@ for (i, delta) in enumerate(np.linspace(-4.0 * gamma, 0.0, 20)):
         f.write(format_string %
                 (i, t, t_in_plane, t_out_of_plane, t_tot))
         f.flush()
+        # No axial cooling:
         evolve_ensemble(dt, t_max, my_ensemble, mode_analysis.B,
-                        forces + [in_plane_cooling] + axial_cooling)
+                        forces + [in_plane_cooling])
         t += t_max
         kin_in_plane.append(kinetic_energy_in_plane(my_ensemble, mode_analysis.wrot))
         kin_out_of_plane.append(kinetic_energy_out_of_plane(my_ensemble))
