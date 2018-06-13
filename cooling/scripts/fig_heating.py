@@ -51,7 +51,7 @@ num_steps = 1000
 
 axial_S0 = 0.0
 in_plane_S0 = 0.5
-offset = 0.0 * sigma
+offset = -1.0 * sigma
 T_initial = 30.0e-3
 #axial_cooling = [
 #    coldatoms.RadiationPressure(gamma, hbar * np.array([0.0, 0.0, k]),
@@ -62,7 +62,7 @@ T_initial = 30.0e-3
 #                                DopplerDetuning(-0.5 * gamma, np.array([0.0, 0.0, -k]))),
 #                            ]
 
-for (i, delta) in enumerate(np.linspace(-10.0 * gamma, 0.0, 20)):
+for (i, delta) in enumerate(np.linspace(-15.0 * gamma, 0.0, 30)):
     my_ensemble = initial_state.copy()
     delta_v = np.sqrt(2.0 * kB * T_initial / my_ensemble.ensemble_properties['mass'])
     # TODO: We really need to add the velocities in the rotating frame. I'm
@@ -73,7 +73,7 @@ for (i, delta) in enumerate(np.linspace(-10.0 * gamma, 0.0, 20)):
     in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0.0]),
                                                    GaussianBeam(in_plane_S0, np.array([0.0, offset, 0.0]), np.array([k, 0.0, 0.0]), sigma),
                                                    DopplerDetuning(delta - 2.0 * np.pi * frot * offset * k, np.array([k, 0.0, 0.0])))
-    f = open('heating_run_5_' + str(i) + '.dat', 'w')
+    f = open('heating_run_6_' + str(i) + '.dat', 'w')
 
     kin_in_plane = [kinetic_energy_in_plane(my_ensemble, mode_analysis.wrot)]
     kin_out_of_plane = [kinetic_energy_out_of_plane(my_ensemble)]
