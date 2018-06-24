@@ -1,6 +1,7 @@
 from common import *
 import ion_trapping
 import sys
+import os
 
 
 def potential_energy(ensemble, B_z, omega, theta, kx, ky, kz):
@@ -46,12 +47,12 @@ def total_energy(ensemble, B_z, omega, theta, kx, ky, kz):
 
 
 dt = 1.0e-9
-t_max = 2.0e-6
-num_steps = 1000
+t_max = 1.0e-6
+num_steps = 10000
 
 axial_S0 = 0.0
 in_plane_S0 = 0.5
-offset = -1.0 * sigma
+offset = 0.0 * sigma
 T_initial = 30.0e-3
 #axial_cooling = [
 #    coldatoms.RadiationPressure(gamma, hbar * np.array([0.0, 0.0, k]),
@@ -62,7 +63,10 @@ T_initial = 30.0e-3
 #                                DopplerDetuning(-0.5 * gamma, np.array([0.0, 0.0, -k]))),
 #                            ]
 
-for (i, delta) in enumerate(np.linspace(-15.0 * gamma, 0.0, 30)):
+Rc = np.max(initial_state.x[:,0])
+print('Rc == ' + str(Rc))
+
+for (i, delta) in enumerate(np.linspace(-5.0 * gamma, 0.0, 10)):
     my_ensemble = initial_state.copy()
     delta_v = np.sqrt(2.0 * kB * T_initial / my_ensemble.ensemble_properties['mass'])
     # TODO: We really need to add the velocities in the rotating frame. I'm
@@ -73,7 +77,7 @@ for (i, delta) in enumerate(np.linspace(-15.0 * gamma, 0.0, 30)):
     in_plane_cooling = coldatoms.RadiationPressure(gamma, hbar * np.array([k, 0.0, 0.0]),
                                                    GaussianBeam(in_plane_S0, np.array([0.0, offset, 0.0]), np.array([k, 0.0, 0.0]), sigma),
                                                    DopplerDetuning(delta - 2.0 * np.pi * frot * offset * k, np.array([k, 0.0, 0.0])))
-    f = open('heating_run_6_' + str(i) + '.dat', 'w')
+    f = open(os.path.join('data', 'heating_run_7_' + str(i) + '.dat'), 'w')
 
     kin_in_plane = [kinetic_energy_in_plane(my_ensemble, mode_analysis.wrot)]
     kin_out_of_plane = [kinetic_energy_out_of_plane(my_ensemble)]
