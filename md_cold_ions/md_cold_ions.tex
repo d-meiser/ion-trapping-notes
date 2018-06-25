@@ -1,0 +1,206 @@
+\documentclass[aps, pra, preprint]{revtex4-1}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{blindtext}
+\presetkeys%
+    {todonotes}%
+    {inline,backgroundcolor=yellow}{}
+\usepackage{changepage}
+\usepackage{setspace}
+\bibliographystyle{apsrev4-1}
+
+
+\newenvironment{comment}[1]{
+    \begin{adjustwidth}{5cm}{-1.5cm}
+        \singlespace
+        \small
+        [#1]
+        \it
+}
+{
+    \end{adjustwidth}
+}
+
+
+
+\begin{document}
+
+\title{First principles simulations of the dynamics of ultra-cold
+ions in Penning traps}
+
+\author{Chen Tang}
+\author{Scott E Parker}
+\affiliation{Center for Integrated Plasma Studies,
+    Department of Physics,
+    University of Colorado at Boulder, CO 80309, USA.}
+\author{Dominic Meiser}
+\affiliation{Trimble Inc, Boulder, 4730 Walnut Street, Suite 201,
+    Boulder, CO 80301, USA.}
+\author{John J Bollinger}
+\affiliation{National Institute of Standards and Technology,
+    Boulder, Colorado 80305, USA.}
+
+
+\begin{abstract}
+    Abstract.
+\end{abstract}
+
+\maketitle
+
+
+\section{Introduction}
+
+
+\begin{comment}{DM}
+    Point of intro: Establish ultra-cold ions in Penning traps as
+    an interesting field of research. Show that modelling can
+    make useful contributions in this area. At the intersection
+    of plasma physics and quantum science. Answer the question
+    "Why another code?"
+\end{comment}
+
+
+\begin{itemize}
+    \item Ultra-cold ions in Penning traps enable interesting
+        research in a number of different areas including
+        quantum optics, quantum metrology, quantum
+        simulation, quantum computing, and plasma physics.
+    \item Cold temperatures are essential for many of these
+        experiments.
+    \item Modelling can help getting to lower temperatures.
+        \begin{itemize}
+            \item Understand cooling limits
+            \item Optimize experimental parameters
+        \end{itemize}
+    \item But besides its utility for experiment, modelling is
+        interesting in its own right. Ultra-cold ions are in an
+        exotic regime characterized by very strong coupling
+        ($\Gamma \gtrsim 100$). Benchmark for plasma simulation
+        code that can then be used for the study of other
+        strongly coupled plasmas.
+    \item Review of modelling and simulation literature,
+        state-of-the-art. Freericks, Torrisi, Dan Dubin, but also
+        many others, especially in the molecular dynamics and
+        plasma physics simulation area. Scott and John to add.
+    \item In this paper we \ldots
+    \item How do we go beyond previous appraoches? What
+        approximations do we make? What assumptions do we avoid?
+    \item Contributions:
+        \begin{itemize}
+            \item Verify and validate a unified, microscopically
+                motivated code for the simulation of ultra-cold
+                ions in Penning traps.
+            \item Finite temperature theory of out-of-plane
+                modes. Determination of mode temperatures.
+                Investigation of thermal equilibrium of these
+                modes.
+            \item Dynamical study of the cooling of the in-plane
+                degrees of freedom.
+        \end{itemize}
+\end{itemize}
+
+
+\section{Computational approach: first principles molecular
+dynamics simulations}
+
+\begin{comment}{DM}
+    A lot of this can be taken from the {\tt cooling.tex}
+    notes. With some editing and polishing.
+\end{comment}
+
+
+\begin{itemize}
+    \item Particle method
+    \item In the lab frame
+\end{itemize}
+
+
+\subsection{Equations of motion}
+
+\begin{itemize}
+    \item Cyclotron motion and treatment of the magnetic
+        field.
+    \item Electro-static trap forces including rotating wall
+        potential.
+    \item Coulomb potential
+\end{itemize}
+
+
+\subsection{Operator splitting}
+
+\begin{itemize}
+    \item Discuss splitting
+    \item Figure: Show convergence plot
+    \item Discuss time scales
+    \item Discuss precision
+\end{itemize}
+
+
+\subsection{Doppler cooling}
+
+\begin{itemize}
+    \item Describe physics of resonance fluorescence and
+        Doppler cooling
+    \item Figure: Show free space Doppler cooling
+    \item Compare with theoretical result
+\end{itemize}
+
+
+\section{Results}
+
+
+\subsection{Single plane instability}
+
+This is a verification and validation result. The single plane to
+two plane instability is well characterized experimentally.
+
+
+\subsection{Axial spectra}
+
+\begin{itemize}
+    \item Figure: Show axial spectra plot with resonances from
+        Freericks code overlayed.
+    \item Compare with Freericks results
+    \item Discuss mode temperatures
+\end{itemize}
+
+
+\subsection{Cooling dynamics}
+
+\begin{itemize}
+    \item Figure: Show temperatures as a function of time for a
+        number of initial conditions. In-plane and
+        out-of-plane temperatures.
+    \item Figure: Compare with Torrisi (scan of offset, beam width, and
+        laser detuning)
+    \item
+        Discuss where the two approaches agree and where they
+        disagree. Explain disagreement as best we can.
+\end{itemize}
+
+
+\section{Conclusion}
+
+\begin{itemize}
+    \item In this paper we have \ldots
+    \item In the future we will \ldots
+\end{itemize}
+
+
+\begin{acknowledgments}
+    Funding agencies etc.
+
+    DM thanks AFOSR and Tech-X Corp. for supporting the
+    development of a similar molecular dynamics simulation code
+    that inspired some of the design of the code presented here.
+\end{acknowledgments}
+
+
+\bibliography{md_cold_ions}
+
+
+\end{document}
