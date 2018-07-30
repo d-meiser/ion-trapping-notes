@@ -8,6 +8,7 @@ import coldatoms
 import os
 import scipy.signal
 import scipy.optimize
+import argparse
 
 plt.style.use('ggplot')
 
@@ -127,7 +128,7 @@ Mmat = np.mat(Mmat)
 # Function to perform evolution
 
 def generate_seededPSD(storage_directory, pMode, sMode, totalEnergy, percentPrimaryE,
-                    t_max = 10.0e-3, dt = 1.0e-9, num_dump = 50, cooling = False):
+                    t_max = 10.0e-3, dt = 1.0e-9, num_dump = 50):
     """
     Params:
     * storage_directory: directory to which to write results
@@ -144,6 +145,9 @@ def generate_seededPSD(storage_directory, pMode, sMode, totalEnergy, percentPrim
 
     MAKE SURE YOU HAVE CHOSEN AN EMPTY DIRECTORY (OR DONT CARE ABOUT OVERWRITING)
     """
+
+    os.makedirs(storage_directory) #Should throw OS error if directory already exists
+
     
     num_steps = int(np.ceil(t_max / dt))
     
@@ -209,23 +213,14 @@ def generate_seededPSD(storage_directory, pMode, sMode, totalEnergy, percentPrim
     modal_ensemble.v[:,2] = (pri_vel + seed_vel) * mode_analysis.v0 # Should be within computer error of zero
     
     # Establish positions and evolve, as per Dominic's Example
-    if cooling:
+    
+    modal_positions.append(np.copy(modal_ensemble.x))
+    for i in range(num_steps // num_dump):
+        coldatoms.bend_kick(dt, mode_analysis.B, modal_ensemble,
+                           [coulomb_force, trap_potential],
+                           num_steps = num_dump)
         modal_positions.append(np.copy(modal_ensemble.x))
-        for i in range(num_steps // num_dump):
-            coldatoms.bend_kick(dt, mode_analysis.B, modal_ensemble,
-                               [coulomb_force, trap_potential]+cooling_beams,
-                               num_steps = num_dump)
-            modal_positions.append(np.copy(modal_ensemble.x))
-        modal_positions = np.array(modal_positions)
-        
-    else:
-        modal_positions.append(np.copy(modal_ensemble.x))
-        for i in range(num_steps // num_dump):
-            coldatoms.bend_kick(dt, mode_analysis.B, modal_ensemble,
-                               [coulomb_force, trap_potential],
-                               num_steps = num_dump)
-            modal_positions.append(np.copy(modal_ensemble.x))
-        modal_positions = np.array(modal_positions)
+    modal_positions = np.array(modal_positions)
         
     
     # Convert time series to frequency data
@@ -235,5 +230,38 @@ def generate_seededPSD(storage_directory, pMode, sMode, totalEnergy, percentPrim
         
     freq_data = np.sum(np.abs(np.fft.fft(modal_positions[:,:,2], axis=0))**2, axis=1)
     
-    np.save(storage_directory + 'freqs', nu_axis)
-    np.save(storage_directory + 'PSD_data', freq_data)
+    np.save(storage_directory + '/freqs', nu_axis)
+    np.save(storage_directory + '/PSD_data', freq_data)
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('directory',
+                    help="Provide the directory to store frequency and PSD data")
+parser.add_argument('pMode',
+                    help="Mode number to provide the most energy",
+                    type=int)
+parser.add_argument('sMode',
+                    help="Mode number to seed with a smaller amount of energy",
+                    type=int)
+parser.add_argument('Energy',
+                    help="Total energy (in units E0) to split between modes",
+                    type=float)
+parser.add_argument('pModePct',
+                    help="Proportion of total energy to place in pMode.\nShould be a number in [0,1].",
+                    type=float)
+parser.add_argument('tMax',
+                    help="Total time of integration.  Increasing produces greater frequency resolution.",
+                    type=float)
+parser.add_argument('dt',
+                    help="Time interval between steps.  Increasing allows for detection of greater frequencies.",
+                    type=float)
+parser.add_argument('numDump',
+                    help="Number of steps (size dt) to take before recording.  Increasing decreases highest measurable frequency.",
+                    type=int)
+
+args = parser.parse_args()
+
+generate_seededPSD(args.directory, args.pMode, args.sMode, args.Energy,
+                   args.pModePct, t_max=args.tMax, dt=args.dt, num_dump=args.numDump)
+                     
+                     
