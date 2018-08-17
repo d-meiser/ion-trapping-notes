@@ -1,0 +1,53 @@
+#!/bin/bash
+# This is a sample slurm job script for the JILA cluster
+# Edit below as required
+#, but delete any lines you do not need
+# email unix@jila.colorado.edu with questions, or come see us
+
+# A name for this job
+#SBATCH -J tmax10e-3_dt1e-9_md35_p99
+
+# The partition (queue) to run on: Choose from jila, long, slow and standby
+# You may also be eligible to choose nistq in some cases
+#SBATCH -p jila
+
+# Number of processor cores required, e.g., 4
+#SBATCH -n 4
+
+# Number of nodes to run on.  The JILA Cluster is not suitable for
+# spanning nodes (Summit, XSEDE, etc are good places to run these jobs)
+# so leave this set to 1
+#SBATCH -N 1
+
+# How much RAM the job will require.  Make sure this is large enough, 
+# or the job will likely fail.  If you're not sure, estimate high.
+#SBATCH --mem=16G
+
+# Maximum expected wall time this job will require
+# Format is DD-HH:MM:SS, this one will end in 15 seconds
+#SBATCH -t 03:00:00
+
+# Request email about this job: options include BEGIN, END, FAIL, ALL or NONE
+# Additionally, TIME_LIMIT_50, 80 or 90 will send email when the job reaches
+# 50%, 80% or 90% of the job walltime limit
+# Multiple options can be separated with a comma
+#SBATCH --mail-type=END,FAIL,TIME_LIMIT_90
+
+# Lines after this will be executed as if typed on a command line.
+# This script is executed from the directory you submitted your job from;
+# unlike the old cluster, there is no need for "cd $PBS_O_WORKDIR"
+
+# You should make sure the appropriate environment module is loaded
+# for the software you want to use: this is the "module load" command.
+# Replace matlab with the package you'll use.
+
+module load gcc
+module load python/3.6.1
+
+# The following example runs a MATLAB program stored in example.m
+# Replace this with commands to run your job.
+
+cd Penning/
+source bin/activate
+python3 ion-trapping-notes/mode_evolution.py Data/Seeded/tmax10e-3.dt1e-9/Energy1_pcent99/modes35/ 3 5 1 .99 10e-3 1e-9 50
+
